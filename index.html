@@ -19,15 +19,102 @@
                     <div class="city">地点</div>
                     <div class="follow-city">
                         <h3 class="follow-topic">关注的城市</h3>
-                        <ol class="follow-list">
-                            <li id="follow-attention">点击“添加关注”添加城市哟~</li>
+                        <p id="follow-attention">点击“添加关注”添加城市哟~</p>
+                        <ol class="follow-list" style="padding: 0;">
+                            <li class="attention" id="">
+                                <p class="following-city" style="width: 146px;">成都
+                                    <a href="javascript:" class="btn-set">设为默认</a>
+                                </p>
+                                <p class="following-city-weather" style="width: 116px;">阴转大雨</p>
+                                <p class="following-city-temp" style="width: 66px;text-align: right;">34</p>
+                                <a href="javascript:void(0)" class="delete"></a>
+                            </li>
                         </ol>
                     </div>
-                    <span>[添加关注]</span>
+                    <span class="following">[添加关注]</span>
                 </div>
                 <div class="input-block" style="display: inline-block;">
                     <input type="input" class="search-city" placeholder="请输入市、区、县等">
-                    <div class="search-city-block"></div>
+                    <div class="search-city-block">
+                        <p class="city-title">当前定位</p>
+                        <ul>
+                            <li class="city-now">
+                                <span>桂林</span>
+                            </li>
+                        </ul>
+                        <div class="city-record-block clearfix">
+                            <p class="city-record city-title">历史记录</p>
+                            <a href="">清除</a>
+                        </div>
+                        <ul class="city-record-list">
+                            <li>
+                                <span>上海</span>
+                            </li>
+                        </ul>
+                        <p class="city-hot city-title">热门城市</p>
+                        <ul class="city-hot-list">
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                            <li>
+                                <span>北京</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -51,29 +138,29 @@
                                     <div class="body-line-1">
                                         <div class="quality-sub">
                                             <p class="val">1</p>
-                                            <p class="tit">1</p>
+                                            <p class="tit">PM2.5</p>
                                         </div>
                                         <div class="quality-sub sub2">
                                             <p class="val">2</p>
-                                            <p class="tit">2</p>
+                                            <p class="tit"> PM10</p>
                                         </div>
                                         <div class="quality-sub">
                                             <p class="val">3</p>
-                                            <p class="tit">3</p>
+                                            <p class="tit">SO2</p>
                                         </div>
                                     </div>
                                     <div class="body-line-2">
                                         <div class="quality-sub">
                                             <p class="val">4</p>
-                                            <p class="tit">4</p>
+                                            <p class="tit">NO2</p>
                                         </div>
                                         <div class="quality-sub sub2">
                                             <p class="val">5</p>
-                                            <p class="tit">5</p>
+                                            <p class="tit">O3</p>
                                         </div>
                                         <di class="quality-sub">
                                             <p class="val">6</p>
-                                            <p class="tit">6</p>
+                                            <p class="tit">CO</p>
                                         </di>
                                     </div>
                                 </div>
@@ -107,148 +194,151 @@
 
 
         <div class="perHourWeather">
-            <div class="per-left">
-                <h2>逐小时预报</h2>
-                <a href="https://www.weather.com.cn/">数据来源于中国天气网</a>
+            <div class="clearfix">
+                <div class="per-left">
+                    <h2>逐小时预报</h2>
+                    <a href="https://www.weather.com.cn/">数据来源于中国天气网</a>
+                </div>
+                <div class="per-right">
+                    <p class="btnl per-left-btn"></p>
+                    <p class="btnr per-right-btn"></p>
+                </div>
             </div>
-            <div class="per-right">
-                <p class="btnl per-left-btn"></p>
-                <p class="btnr per-right-btn"></p>
-            </div>
-            <br>
             <div class="per-weather">
-                <ol>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                    <li class="item">
-                        <p class="per-text">16:00</p>
-                        <img src="" alt="">
-                        <p class="per-tempreture">37°</p>
-                    </li>
-                </ol>
+                <div class="per-move">
+                    <ol>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="img/02.png" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="img/02.png" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="img/a1.png" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                        <li class="item">
+                            <p class="per-text">16:00</p>
+                            <img src="img/a2.png" alt="">
+                            <p class="per-tempreture">37°</p>
+                        </li>
+                    </ol>
+                </div>
             </div>
         </div>
 
@@ -261,156 +351,275 @@
                     </p>
                 </div>
 
-                <div class="week-weather"> </div>
+                <div class="week-weather-block">
+                    <ol>
+                        <li class="week-first">
+                            <p class="week-day">昨天</p>
+                            <p class="week-date">星期一</p>
+                            <div class="week-dayweather">
+                                <p class="dayweather">阴</p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather">多云</p>
+                            </div>
+                            <p class="week-wind">南风</p>
+                        </li>
+                        <li class="week-second">
+                            <p class="week-day"></p>
+                            <p class="week-date"></p>
+                            <div class="week-dayweather">
+                                <p class="dayweather"></p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather"></p>
+                            </div>
+                            <p class="week-wind"></p>
+                        </li>
+                        <li>
+                            <p class="week-day"></p>
+                            <p class="week-date"></p>
+                            <div class="week-dayweather">
+                                <p class="dayweather"></p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather"></p>
+                            </div>
+                            <p class="week-wind"></p>
+                        </li>
+                        <li>
+                            <p class="week-day"></p>
+                            <p class="week-date"></p>
+                            <div class="week-dayweather">
+                                <p class="dayweather"></p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather"></p>
+                            </div>
+                            <p class="week-wind"></p>
+                        </li>
+                        <li>
+                            <p class="week-day"></p>
+                            <p class="week-date"></p>
+                            <div class="week-dayweather">
+                                <p class="dayweather"></p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather"></p>
+                            </div>
+                            <p class="week-wind"></p>
+                        </li>
+                        <li>
+                            <p class="week-day"></p>
+                            <p class="week-date"></p>
+                            <div class="week-dayweather">
+                                <p class="dayweather"></p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather"></p>
+                            </div>
+                            <p class="week-wind"></p>
+                        </li>
+                        <li>
+                            <p class="week-day"></p>
+                            <p class="week-date"></p>
+                            <div class="week-dayweather">
+                                <p class="dayweather"></p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather"></p>
+                            </div>
+                            <p class="week-wind"></p>
+                        </li>
+                        <li>
+                            <p class="week-day"></p>
+                            <p class="week-date"></p>
+                            <div class="week-dayweather">
+                                <p class="dayweather"></p>
+                                <img src="" alt="">
+                            </div>
+                            <div class="week-nightweather">
+                                <img src="" alt="">
+                                <p class="nightweather"></p>
+                            </div>
+                            <p class="week-wind"></p>
+                        </li>
+                    </ol>
+                </div>
             </div>
+
+
             <div class="Living">
                 <div class="Living-head">
                     <p class="Living-quality">生活指数</p>
                     <div class="Living-right">
-                        <p class="btnl"></p>
-                        <p class="btnr"></p>
+                        <p class="living-btnl btnl"></p>
+                        <p class="living-btnr btnr"></p>
                     </div>
                 </div>
 
                 <div class="Living-content">
-                    <ul>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
+                    <div class="left-page">
+                        <ul>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="cloth"></i>
+                                        <span>穿衣&nbsp;</span><span class="Living-infor-content">短袖</span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="umbrella"></i>
+                                        <span>雨伞&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="cold"></i>
+                                        <span>感冒&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="washcar"></i>
+                                        <span>洗车&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="exercise"></i>
+                                        <span>运动&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="sun"></i>
+                                        <span>防晒&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="right-page">
+                        <ul>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="fishing"></i>
+                                        <span>钓鱼&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="travel"></i>
+                                        <span>旅游&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="trafic"></i>
+                                        <span>交通&nbsp;</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="polution"></i>
+                                        <span>空气污染扩散条件</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="comfort"></i>
+                                        <span>舒适度</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
+                            </li>
+                            <li>
+                                <div class="Living-infor">
+                                    <div class="sub">
+                                        <i class="dry"></i>
+                                        <span>晾晒</span> <span class="Living-infor-content"></span>
+                                    </div>
+                                    <div class="Living-detail">
+                                        1111111111111111111111111
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
-                                </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
-                                </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
-                                </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
-                                </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
-                                </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="Living-infor">
-                                <div class="sub">
-                                    <i>1</i>
-                                    <p>11</p>
-                                </div>
-                                <div class="Living-detail">
-                                    1111111111111111111111111
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+
+
     <footer>
         <div class="foor-content w">
             <div class="foot-sponsor">
@@ -443,7 +652,10 @@
             </div>
         </div>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="request.js"></script>
+    <script src="load.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>

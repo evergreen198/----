@@ -3,6 +3,15 @@
     padding: 0;
 }
 
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+
 .w {
     width: 1200px;
     margin: 0 auto;
@@ -58,12 +67,23 @@ header {
     display: inline-block;
 }
 
+.city::before {
+    content: "";
+    float: left;
+    margin-top: 24px;
+    margin-right: 7px;
+    width: 16px;
+    height: 16px;
+    background: url(img/locate.png) no-repeat center;
+}
+
 .to-follow {
     cursor: pointer;
 }
 
 .to-follow:hover .follow-city {
     display: block;
+    z-index: 999;
 }
 
 .follow-city {
@@ -87,9 +107,62 @@ header {
     margin-left: 20px;
 }
 
+
 .follow-list {
     text-align: left;
     margin-top: 15px;
+    line-height: 32px;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #555;
+    letter-spacing: 0;
+}
+
+.attention {
+    padding: 0 20px 0 20px;
+}
+
+.attention p {
+    display: inline-block;
+}
+
+.attention .btn-set,
+.btn-cancel {
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    display: none;
+    color: #777;
+    background: #f7f7f7;
+    border: 1px solid #cecece;
+    border-radius: 4px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 4px;
+    margin-left: 5px;
+}
+
+.delete::after {
+    content: "";
+    float: right;
+    display: none;
+    margin-top: 10px;
+    height: 15px;
+    width: 15px;
+    background: url(img/delete.png);
+}
+
+.follow-list .attention:hover .delete::after {
+    display: inline-block;
+}
+
+.follow-list .attention:hover p .btn-set,
+.btn-cancel {
+    display: inline-block;
+}
+
+.follow-list .attention:hover {
+    background-color: rgb(244, 244, 244);
 }
 
 #follow-attention {
@@ -99,13 +172,14 @@ header {
     line-height: 20px;
 }
 
-.right-infor span {
+.right-infor .following {
     margin-right: 20px;
     font-size: 14px;
 }
 
 .search-city {
     color: #fff;
+    width: 250px;
     background-color: rgba(255, 255, 255, 0.2);
     border: none;
     line-height: 20px;
@@ -117,6 +191,108 @@ header {
 .search-city:focus-visible {
     border: none;
 }
+
+.search-city-block {
+    z-index: 999;
+    display: none;
+    position: absolute;
+    width: 280px;
+    background: #fff;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+    border-radius: 5px;
+    margin-top: 4px;
+    padding: 20px 0 10px;
+}
+
+.city-title {
+    font-size: 12px;
+    color: #9f9f9f;
+    height: 12px;
+    line-height: 12px;
+    margin-bottom: 8px;
+    margin-top: 2px;
+    clear: both;
+    padding: 0 20px;
+}
+
+.city-now {
+    display: block;
+    height: 14px;
+    font-size: 14px;
+    color: #555;
+    line-height: 14px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    margin-left: 20px;
+}
+
+.city-now::after {
+    content: "";
+    float: right;
+    margin-top: 2px;
+    margin-right: 220px;
+    height: 11px;
+    width: 10px;
+    background: url(img/darklocate.png);
+}
+
+.search-city-block ul li:hover span {
+
+    cursor: pointer;
+    background-color: #f3f3f3;
+}
+
+.city-record-block {
+    display: block;
+}
+
+.city-record {
+    float: left;
+}
+
+.city-record-block a {
+    float: right;
+    width: 40px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 9px;
+    background-color: #f0f0f0;
+    font-size: 12px;
+    color: #868686;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.city-record-list {
+    margin-bottom: 20px;
+}
+
+.city-record-list li {
+    margin-left: 20px;
+    height: 14px;
+    font-size: 14px;
+    color: #555;
+    line-height: 14px;
+}
+
+.city-hot-list {
+    margin-left: 20px;
+}
+
+.city-hot-list li {
+    float: left;
+    line-height: 28px;
+    width: 25%;
+    height: 28px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #555;
+}
+
 
 .location-weather {
     position: relative;
@@ -254,12 +430,12 @@ header {
     color: #344665 !important;
 }
 
-.quality-sub p{
+.quality-sub p {
     font-size: 12px;
     line-height: 24px;
 }
 
-.quality-sub p:nth-child(2){
+.quality-sub p:nth-child(2) {
     color: #9f9f9f;
 }
 
@@ -289,6 +465,34 @@ header {
     width: 134px;
 }
 
+.wind::before,
+.humidity::before,
+.air-press::before,
+.car::before {
+    content: '';
+    float: left;
+    height: 20px;
+    width: 20px;
+    margin-right: 7px;
+}
+
+.wind::before {
+
+    background: url(img/wind-north.png);
+}
+
+.humidity::before {
+    background: url(img/wet.png);
+}
+
+.air-press::before {
+    background: url(img/P.png);
+}
+
+.car::before {
+    background: url(img/car.png);
+}
+
 .perHourWeather {
     height: 143px;
     margin-top: 130px;
@@ -305,7 +509,7 @@ header {
 
 .per-left h2 {
     line-height: 21px;
-    font-size: 21px;
+    font-size: 18px;
     height: 21px;
     font-weight: 400;
     display: inline-block;
@@ -365,6 +569,13 @@ header {
     overflow: hidden;
 }
 
+.per-move {
+    position: relative;
+    left: 0px;
+    width: 3000px;
+    transition: all 1s;
+}
+
 ol {
     overflow: hidden;
     white-space: nowrap;
@@ -374,10 +585,9 @@ ol {
 .per-weather ol li {
     height: 100px;
     width: 40px;
-    background-color: aqua;
     text-align: center;
     display: inline-block;
-    margin-right: 60px;
+    margin-right: 56px;
 }
 
 .per-text {
@@ -455,9 +665,62 @@ ol {
     margin-right: 30px;
 }
 
-.week-weather {
+.week-weather-block {
     width: 740px;
     height: 449px;
+}
+
+.week-weather-block {
+    height: 450px;
+    width: 740px;
+
+}
+
+.week-weather-block ol {
+    display: flex;
+    justify-content: space-between;
+}
+
+.week-weather-block ol li {
+    display: inline-block;
+    height: 414px;
+    width: 92px;
+    padding: 11px 0 25 0;
+    background-color: #384c78;
+}
+
+.week-day {
+    margin-bottom: 12px;
+}
+
+.week-date {
+    font-size: 12px;
+    margin-bottom: 30px;
+}
+
+.dayweather {
+    margin-bottom: 20px;
+}
+
+.week-nightweather {
+    margin-top: 174px;
+    margin-bottom: 24px;
+}
+
+.week-nightweather img {
+    margin-bottom: 20px;
+}
+
+.week-wind{
+    font-size: 12px;
+}
+
+.week-weather-block ol .week-first {
+    position: relative;
+    top: 0;
+    color: #c2c2c2;
+    font-size: 14px;
+    text-align: center;
 }
 
 .Living {
@@ -465,6 +728,7 @@ ol {
     width: 430px;
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .Living-head {
@@ -494,9 +758,19 @@ ol {
 }
 
 .Living-content {
+    position: relative;
+    left: 0px;
     width: 900px;
     height: 480px;
     padding-top: 31px;
+    transition: all 1s;
+}
+
+.left-page,
+.right-page {
+    display: inline-block;
+    height: 480px;
+    width: 440px;
 }
 
 .Living-content ul {
@@ -527,9 +801,75 @@ ol {
 }
 
 .sub {
+
     height: 102px;
     width: 100%;
     padding-top: 38px;
+}
+
+.sub i {
+    height: 34px;
+    margin-bottom: 8px;
+}
+
+.sub .cloth {
+    display: block;
+    background: url(img/living/cloth.png) no-repeat center;
+}
+
+.umbrella {
+    display: block;
+    background: url(img/living/umbrella.png) no-repeat center;
+}
+
+.cold {
+    display: block;
+    background: url(img/living/cold.png) no-repeat center;
+}
+
+.washcar {
+    display: block;
+    background: url(img/living/washcar.png) no-repeat center;
+}
+
+.exercise {
+    display: block;
+    background: url(img/living/exercise.png) no-repeat center;
+}
+
+.sun {
+    display: block;
+    background: url(img/living/sun.png) no-repeat center;
+}
+
+.fishing {
+    display: block;
+    background: url(img/living/fishing.png) no-repeat center;
+}
+
+.travel {
+    display: block;
+    background: url(img/living/travel.png) no-repeat center;
+}
+
+.trafic {
+    display: block;
+    background: url(img/living/trafic.png) no-repeat center;
+}
+
+.polution {
+    display: block;
+    background: url(img/living/polution.png) no-repeat center;
+}
+
+.comfort {
+    display: block;
+    background: url(img/living/comfort.png) no-repeat center;
+}
+
+.dry {
+    display: block;
+    background: url(img/living/dry.png) no-repeat center;
 }
 
 .Living-detail {
@@ -543,6 +883,9 @@ ol {
 }
 
 .Living-infor {
+    font-size: 16px;
+    color: #384c78;
+    line-height: 22px;
     transition: all 1s;
 }
 
