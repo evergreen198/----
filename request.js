@@ -1,6 +1,5 @@
 //请求头
 axios.defaults.baseURL = 'https://nn6r6x7pdy.re.qweatherapi.com'
-console.log(key);
 
 // //请求器拦截
 // axios.interceptors.request.use(function (config) {

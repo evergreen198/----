@@ -204,6 +204,41 @@ header {
     padding: 20px 0 10px;
 }
 
+.search-city-block2 {
+    z-index: 999;
+    position: absolute;
+    width: 280px;
+    background: #fff;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .15);
+    border-radius: 5px;
+    margin-top: 4px;
+    padding: 10px 0 10px;
+}
+
+.search-city-block2 p {
+    margin: 0;
+    color: #888;
+    display: none;
+    text-align: center;
+    padding: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+.found-list {
+    padding: 0;
+}
+
+.found-list li {
+    padding-left: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #555;
+    height: 22px;
+    line-height: 22px;
+}
+
 .city-title {
     font-size: 12px;
     color: #9f9f9f;
@@ -380,7 +415,7 @@ header {
     margin-left: -10px;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid #000;
+    border-bottom: var(--border-bottom-color, 10px solid #000);
     border-top: 10px solid transparent;
     top: -20px;
     content: "";
@@ -477,8 +512,7 @@ header {
 }
 
 .wind::before {
-
-    background: url(img/wind-north.png);
+    background: var(--before-background, url());
 }
 
 .humidity::before {
@@ -711,7 +745,7 @@ ol {
     margin-bottom: 20px;
 }
 
-.week-wind{
+.week-wind {
     font-size: 12px;
 }
 
@@ -873,11 +907,12 @@ ol {
 }
 
 .Living-detail {
-    word-wrap: break-word;
+    white-space: wrap;
     text-align: center;
     margin-top: 20px;
     height: 100%;
     width: 160px;
+    font-size: 12px;
     padding: 0 20px;
     overflow: hidden
 }

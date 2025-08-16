@@ -1,6 +1,8 @@
 //输入框显示处理
 const inputSearchCity = document.querySelector('.search-city')
 const CityBlock = document.querySelector('.search-city-block')
+const SearchBlock = document.querySelector('.search-city-block2')
+const GetCityList = SearchBlock.querySelector('ul')
 
 inputSearchCity.addEventListener('focus', () => {
     CityBlock.style.display = 'block';
@@ -8,6 +10,7 @@ inputSearchCity.addEventListener('focus', () => {
 
 inputSearchCity.addEventListener('blur', () => {
     CityBlock.style.display = 'none';
+    SearchBlock.style.display = 'none';
 })
 
 //小时天气翻页处理
@@ -79,6 +82,64 @@ followbtn.addEventListener('click', () => {
     }
     else {
         console.log('已关注');
-
     }
+})
+
+const SearchCity = document.querySelector('.search-city')
+SearchCity.addEventListener('input', () => {
+    axios({
+        url: '/geo/v2/city/lookup',
+        method: 'GET',
+        params: {
+            key,
+            location: `${SearchCity.value}`,
+            range: 'cn',
+            lang: 'zh'
+        }
+    }).then(result => {
+        console.log('win');
+        const orinode = GetCityList.children[0]
+        while (GetCityList.firstChild) {
+            GetCityList.removeChild(GetCityList.firstChild);
+        }
+        GetCityList.appendChild(orinode)
+        console.log(GetCityList);
+
+
+        document.querySelector('.not-found').style.display = 'none'
+        CityBlock.style.display = 'none'
+        SearchBlock.style.display = 'block'
+
+        result.data.location.forEach((item) => {
+            if (item.name.includes(SearchCity.value)) {
+                const newli = GetCityList.children[0].cloneNode(true)
+                newli.style.display = 'block'
+                if (item.name === item.adm2) {
+                    newli.innerText = `${item.adm1}，${item.adm2}`
+
+                }
+                else {
+                    newli.innerText = `${item.adm1}，${item.adm2}，${item.name}`
+
+                }
+                GetCityList.appendChild(newli)
+            }
+        })
+        GetCityList.children[0].style.display = 'none'
+    }).catch(error => {
+        console.log('lose');
+        console.log(error);
+
+        CityBlock.style.display = 'none'
+        SearchBlock.style.display = 'block'
+    })
+})
+
+SearchCity.addEventListener('blur', () => {
+    SearchCity.value = ''
+    const orinode = GetCityList.children[0]
+    while (GetCityList.firstChild) {
+        GetCityList.removeChild(GetCityList.firstChild);
+    }
+    GetCityList.appendChild(orinode)
 })
