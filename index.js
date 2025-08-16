@@ -60,11 +60,25 @@ LivingBtnl.addEventListener('click', () => {
 
 
 //添加城市关注
-const followbtn = document.querySelector('.following')
-const followingList = document.querySelector('.follow-list').querySelectorAll('li')
+
+
 followbtn.addEventListener('click', () => {
+    console.log(1);
+    console.log(followingList);
     const city = document.querySelector('.city').innerText
-    if(!followingList[city]){
-        
+    if (!cityList.includes(city)) {
+        const newcity = {
+            city,
+            province: '',
+            id: '',
+            isDefault: false
+        }
+        followingList.push(newcity)
+        localStorage.setItem('followingList', JSON.stringify(followingList))
+        followbtn.innerHTML = '[已关注]'
+    }
+    else {
+        console.log('已关注');
+
     }
 })
