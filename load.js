@@ -1,13 +1,48 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const attentionCity = localStorage.getItem('attentionCity')
-    const searchHistory = localStorage.getItem('searchHistory')
-    if (attentionCity) {
+    if (followingList.length) {
         //渲染
+        document.querySelector('#follow-attention').style.display='none'
+        const orili=showFollowList.children[0].cloneNode(true)
+        
+        //遍历关注城市的列表
+        followingList.forEach((item)=>{
+            const newli=orili
+            newli.querySelector('.following-city').innerHTML=`${item.city}<a href="javascript:" class="btn-set">设为默认</a>`
+            newli.querySelector('.following-city').id=item.id
+            console.log(item.id);
+            console.log('haha');
+            
+            
+            //!待完成：发送请求查询天气,渲染
+            axios({
+                url:'/v7/weather/3d',
+                method:'GET',
+                params:{
+                    key,
+                    location:`${item.id}`,
+                    lang:'zh',
+                    unit:'m'
+                }
+            }).then(result=>{
+                newli.querySelector('.following-city-weather').innerText=result.data.daily[0].textDay
+                newli.querySelector('.following-city-temp').innerText=`${result.data.daily[0].tempMax}°/${result.data.daily[0].tempMin}°`
+                newli.style.display='block'
+                showFollowList.append(newli)
+            })
+        })
     }
-    if (searchHistory) {
+    if (searchHistory&&searchHistory.length) {
         //渲染
     }
 })
+
+function ToSplit1(str) {
+    return str.split("T")[1].split("+")[0]
+}
+
+function ToSplit2(str) {
+    return parseInt(str.split(":")[0]) * 24 + parseInt(str.split(":")[1])
+}
 
 //热门城市查询
 axios({
@@ -194,66 +229,70 @@ axios({
         date
     }
 }).then(result => {
-    sun[0] = result.data.sunrise.split('T')[1].split('+')[0]
-    sun[1] = result.data.sunset.split('T')[1].split('+')[0]
+    sun[0] = ToSplit1(result.data.sunrise)
+    sun[1] = ToSplit1(result.data.sunset)
+
+
+    //每小时+日出日落天气渲染
+    axios({
+        url: '/v7/weather/24h',
+        method: 'GET',
+        params: {
+            key,
+            location: `${document.querySelector('.city').id}`,
+            lang: 'zh',
+            unit: 'm'
+        }
+    }).then(result => {
+        //判断晴晚
+        let flag = 'day'
+        const perHourList = document.querySelector('.per-move').querySelectorAll('li')
+        const perTime = result.data.hourly.forEach((item, index) => {
+            const time = ToSplit1(result.data.hourly[index].fxTime)
+            const transtime = ToSplit2(time)
+
+            const nexttime = ToSplit1(result.data.hourly[index + 1].fxTime)
+            const transnexttime = ToSplit2(nexttime)
+
+            const transSunrise = ToSplit2(sun[0])
+            const transSunset = ToSplit2(sun[1])
+
+
+
+            if (transSunrise > transtime && transSunrise < transnexttime) {
+                const sunriseobj = new Object()
+                sunriseobj.fxTime = `1T${sun[0]}+1`
+                sunriseobj.temp = '日出'
+                sunriseobj.text = '日出'
+                result.data.hourly.splice(index + 1, 0, sunriseobj)
+                flag = 'day'
+            } else if (transSunset > transtime && transSunset < transnexttime) {
+                const sunsetobj = new Object()
+                sunsetobj.fxTime = `1T${sun[1]}+1`
+                sunsetobj.temp = '日落'
+                sunsetobj.text = '日落'
+                result.data.hourly.splice(index + 1, 0, sunsetobj)
+                flag = 'night'
+            }
+        })
+        console.log(result.data.hourly);
+        perHourList.forEach((item, index) => {
+
+            const perTime = ToSplit1(result.data.hourly[index].fxTime)
+            const pertemp = result.data.hourly[index].temp
+            const perwea = result.data.hourly[index].text
+            if (perwea === '日出') {
+                flag = 'day'
+            } else if (perwea === '日落') {
+                flag = 'night'
+            }
+            item.querySelector('.per-text').innerText = perTime
+            item.querySelector('.per-tempreture').innerText = `${pertemp}°`
+            item.querySelector('img').src = `img/weather/${flag}/${perwea}.png`
+
+        })
+    })
+
 })
 
 
-
-axios({
-    url: '/v7/weather/24h',
-    method: 'GET',
-    params: {
-        key,
-        location: `${document.querySelector('.city').id}`,
-        lang: 'zh',
-        unit: 'm'
-    }
-}).then(result => {
-    let flag = 'day'
-    const perHourList = document.querySelector('.per-move').querySelectorAll('li')
-    const perTime = result.data.hourly.forEach((item, index) => {
-        const time = result.data.hourly[index].fxTime.split('T')[1].split('+')[0]
-        const transtime = parseInt(time.split(':')[0]) * 24 + parseInt(time.split(':')[1])
-
-        const nexttime = result.data.hourly[index + 1].fxTime.split('T')[1].split('+')[0]
-        const transnexttime = parseInt(nexttime.split(':')[0]) * 24 + parseInt(nexttime.split(':')[1])
-
-        const transSunrise = parseInt(sun[0].split(':')[0]) * 24 + parseInt(sun[0].split(':')[1])
-        const transSunset = parseInt(sun[1].split(':')[0]) * 24 + parseInt(sun[1].split(':')[1])
-
-
-
-        if (transSunrise > transtime && transSunrise < transnexttime) {
-            const sunriseobj = new Object()
-            sunriseobj.fxTime = `1T${sun[0]}+1`
-            sunriseobj.temp = '日出'
-            sunriseobj.text = '日出'
-            result.data.hourly.splice(index + 1, 0, sunriseobj)
-            flag = 'day'
-        } else if (transSunset > transtime && transSunset < transnexttime) {
-            const sunsetobj = new Object()
-            sunsetobj.fxTime = `1T${sun[1]}+1`
-            sunsetobj.temp = '日落'
-            sunsetobj.text = '日落'
-            result.data.hourly.splice(index + 1, 0, sunsetobj)
-            flag = 'night'
-        }
-    })
-    console.log(result.data.hourly);
-    perHourList.forEach((item, index) => {
-
-        const perTime = result.data.hourly[index].fxTime.split('T')[1].split('+')[0]
-        const pertemp = result.data.hourly[index].temp
-        const perwea = result.data.hourly[index].text
-        if (perwea === '日出') {
-            flag = 'day'
-        } else if (perwea === '日落') {
-            flag = 'night'
-        }
-        item.querySelector('.per-text').innerText = perTime
-        item.querySelector('.per-tempreture').innerText = `${pertemp}°`
-        item.querySelector('img').src = `img/weather/${flag}/${perwea}.png`
-
-    })
-})

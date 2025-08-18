@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>腾讯天气</title>
     <link rel="stylesheet" href="index.css">
 </head>
 
@@ -18,19 +18,23 @@
                 <div class="to-follow" style="display: inline-block;">
                     <span class="province" style="display: none;">北京市</span>
                     <div class="city" id="101010100">北京</div>
+
                     <div class="follow-city">
                         <h3 class="follow-topic">关注的城市</h3>
                         <p id="follow-attention">点击“添加关注”添加城市哟~</p>
+
                         <ol class="follow-list" style="padding: 0;">
                             <li class="attention" id="">
-                                <p class="following-city" style="width: 146px;">成都
+                                <p class="following-city" id="" style="width: 146px;">成都
                                     <a href="javascript:" class="btn-set">设为默认</a>
+                                    <a href="javascript:" class="btn-set2">默认</a>
                                 </p>
                                 <p class="following-city-weather" style="width: 116px;">阴转大雨</p>
                                 <p class="following-city-temp" style="width: 66px;text-align: right;">34</p>
                                 <a href="javascript:void(0)" class="delete"></a>
                             </li>
                         </ol>
+
                     </div>
                     <span class="following">[添加关注]</span>
                 </div>
@@ -663,12 +667,16 @@
     <script>
         const key = '6c21587557574fd4bfc50e39f63986d2'
         const followbtn = document.querySelector('.following')
+        //解析json格式的本地存储内容
         let followingList = JSON.parse(localStorage.getItem('followingList'))
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
+        const showFollowList=document.querySelector('.follow-list')
 
         if (!followingList) {
             followingList = new Array()
         }
         const cityList = followingList.map(item => item.city)
+
         if (cityList.includes(document.querySelector('.city').innerText)) {
             followbtn.innerHTML = '[已关注]'
         }

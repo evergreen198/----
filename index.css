@@ -92,7 +92,6 @@ header {
     width: 418px;
     min-height: 86px;
     background: #fff;
-
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1);
     border-radius: 5px;
     padding: 17px 0;
@@ -119,6 +118,7 @@ header {
 }
 
 .attention {
+    display: none;
     padding: 0 20px 0 20px;
 }
 
@@ -140,6 +140,21 @@ header {
     line-height: 18px;
     padding: 0 4px;
     margin-left: 5px;
+}
+
+.btn-set2{
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    display: none;
+    color: #63b6f6;;
+    background: #f7f7f7;
+    border: 1px solid #63b6f6;;
+    border-radius: 4px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 4px;
+    margin-left: 5px; 
 }
 
 .delete::after {
@@ -166,6 +181,7 @@ header {
 }
 
 #follow-attention {
+    margin-top: 20px;
     font-size: 14px;
     color: #9f9f9f;
     text-align: center;
@@ -206,6 +222,7 @@ header {
 
 .search-city-block2 {
     z-index: 999;
+    display: none;
     position: absolute;
     width: 280px;
     background: #fff;

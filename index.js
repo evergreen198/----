@@ -63,8 +63,6 @@ LivingBtnl.addEventListener('click', () => {
 
 
 //添加城市关注
-
-
 followbtn.addEventListener('click', () => {
     console.log(1);
     console.log(followingList);
@@ -84,7 +82,7 @@ followbtn.addEventListener('click', () => {
         console.log('已关注');
     }
 })
-
+//渲染模糊搜索列表
 const SearchCity = document.querySelector('.search-city')
 SearchCity.addEventListener('input', () => {
     axios({
@@ -111,9 +109,12 @@ SearchCity.addEventListener('input', () => {
         SearchBlock.style.display = 'block'
 
         result.data.location.forEach((item) => {
+            //最小单位包括搜索的关键字
+            //注入id
             if (item.name.includes(SearchCity.value)) {
                 const newli = GetCityList.children[0].cloneNode(true)
                 newli.style.display = 'block'
+                newli.id=item.id
                 if (item.name === item.adm2) {
                     newli.innerText = `${item.adm1}，${item.adm2}`
 
@@ -126,10 +127,15 @@ SearchCity.addEventListener('input', () => {
             }
         })
         GetCityList.children[0].style.display = 'none'
+
+        GetCityList.addEventListener('click',e=>{
+            document.querySelector('.city').innerHTML=e.innerText
+            document.querySelector('.city').id=e.id
+        })
     }).catch(error => {
         console.log('lose');
         console.log(error);
-
+        document.querySelector('.not-found').style.display='block'
         CityBlock.style.display = 'none'
         SearchBlock.style.display = 'block'
     })
@@ -142,4 +148,10 @@ SearchCity.addEventListener('blur', () => {
         GetCityList.removeChild(GetCityList.firstChild);
     }
     GetCityList.appendChild(orinode)
+})
+
+//删除关注城市
+const delbtn=document.querySelectorAll('.delete')
+delbtn.addEventListener('click',(e)=>{
+    //删除该节点
 })
