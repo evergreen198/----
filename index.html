@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>腾讯天气</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
     <header>
         <nav class="w">
-            <img src="img/下载.webp" alt="" class="left-icon">
+            <img src="css/cssimg/下载.webp" alt="" class="left-icon">
             <div class="right-infor">
                 <a href="https://www.qq.com/">腾讯网首页</a>
                 <a href="">无障碍浏览</a>
@@ -27,10 +27,12 @@
                             <li class="attention" id="">
                                 <p class="following-city" id="" style="width: 146px;">成都
                                     <a href="javascript:" class="btn-set">设为默认</a>
+                                    <a href="javascript:" class="btn-set1">取消默认</a>
                                     <a href="javascript:" class="btn-set2">默认</a>
                                 </p>
-                                <p class="following-city-weather" style="width: 116px;">阴转大雨</p>
-                                <p class="following-city-temp" style="width: 66px;text-align: right;">34</p>
+                                <img src="" alt="" style="display: inline-block;width: 20px;height: 20px;">
+                                <p class="following-city-weather" style="width: 106px;">阴转大雨</p>
+                                <p class="following-city-temp" style="width: 56px;text-align: right;">34</p>
                                 <a href="javascript:void(0)" class="delete"></a>
                             </li>
                         </ol>
@@ -139,9 +141,8 @@
                     <p class="text-tempreture">37°</p>
                     <p class="text-name">阴</p>
                     <div class="air-quality">
-                        <div class="air-spot"></div>
+                        <img class="air-spot">
                         <span class="air-imfor">良</span>
-
                         <div class="air-quality-block">
                             <div class="quality-head" style="font-size: 18px;"></div>
                             <div class="quality-body">
@@ -179,9 +180,20 @@
                             </div>
                         </div>
                     </div>
-
+                    <ul class="warning">
+                        <li>
+                            <div class="warning-content">
+                                <span class="warn-name">12</span>
+                                <div class="warning-block">
+                                    <div class="warning-head">111</div>
+                                    <div class="warning-detail"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <ul>
+
+                <ul class="weather-detail">
                     <li class="wind">
                         <i class="ico-wind"></i>
                         <span>南风</span>
@@ -670,7 +682,7 @@
         //解析json格式的本地存储内容
         let followingList = JSON.parse(localStorage.getItem('followingList'))
         let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
-        const showFollowList=document.querySelector('.follow-list')
+        const showFollowList = document.querySelector('.follow-list')
 
         if (!followingList) {
             followingList = new Array()
@@ -682,9 +694,9 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="request.js"></script>
-    <script src="load.js"></script>
-    <script src="index.js"></script>
+    <script src="js/request.js"></script>
+    <script src="js/load.js"></script>
+    <script src="js/index.js"></script>
 </body>
 
 </html>

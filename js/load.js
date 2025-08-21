@@ -1,37 +1,39 @@
 window.addEventListener('DOMContentLoaded', () => {
     if (followingList.length) {
         //渲染
-        document.querySelector('#follow-attention').style.display='none'
-        const orili=showFollowList.children[0].cloneNode(true)
-        
+        document.querySelector('#follow-attention').style.display = 'none'
+        const orili = showFollowList.children[0].cloneNode(true)
+
         //遍历关注城市的列表
-        followingList.forEach((item)=>{
-            const newli=orili
-            newli.querySelector('.following-city').innerHTML=`${item.city}<a href="javascript:" class="btn-set">设为默认</a>`
-            newli.querySelector('.following-city').id=item.id
+        followingList.forEach((item) => {
+            const newli = orili
+            newli.querySelector('.following-city').innerHTML = `${item.city}<a href="javascript:" class="btn-set">设为默认</a>`
+            newli.querySelector('.following-city').id = item.id
             console.log(item.id);
             console.log('haha');
-            
-            
+
+
             //!待完成：发送请求查询天气,渲染
             axios({
-                url:'/v7/weather/3d',
-                method:'GET',
-                params:{
+                url: '/v7/weather/3d',
+                method: 'GET',
+                params: {
                     key,
-                    location:`${item.id}`,
-                    lang:'zh',
-                    unit:'m'
+                    location: `${item.id}`,
+                    lang: 'zh',
+                    unit: 'm'
                 }
-            }).then(result=>{
-                newli.querySelector('.following-city-weather').innerText=result.data.daily[0].textDay
-                newli.querySelector('.following-city-temp').innerText=`${result.data.daily[0].tempMax}°/${result.data.daily[0].tempMin}°`
-                newli.style.display='block'
+            }).then(result => {
+                const newinfor = result.data.daily[0]
+                newli.querySelector('img').src = `img/timid/${newinfor.textDay}.png`
+                newli.querySelector('.following-city-weather').innerText = newinfor.textDay
+                newli.querySelector('.following-city-temp').innerText = `${newinfor.tempMax}°/${newinfor.tempMin}°`
+                newli.style.display = 'block'
                 showFollowList.append(newli)
             })
         })
     }
-    if (searchHistory&&searchHistory.length) {
+    if (searchHistory && searchHistory.length) {
         //渲染
     }
 })
@@ -96,7 +98,18 @@ axios({
         }
     }).then(result => {
         document.querySelector('.air-imfor').innerText = result.data.indexes[0].category
-        const color = `rgb(${result.data.indexes[0].color.red}, ${result.data.indexes[0].color.green}, ${result.data.indexes[0].color.blue})`;
+        let color
+        if (result.data.indexes[0].category === '良') { color = '#f0cc35' 
+            document.querySelector('.air-spot').src='img/quality2.png'
+        }
+        else if (result.data.indexes[0].category === '优') { color='#a3d765'
+            document.querySelector('.air-spot').src='img/quality1.png'
+
+        }
+        else {color='#f1ab62' 
+            document.querySelector('.air-spot').src='img/quality3.png'
+
+        }
         document.querySelector('.quality-head').innerHTML = `空气质量指数&nbsp;${result.data.indexes[0].aqi}&nbsp;${result.data.indexes[0].category}`
         document.querySelector('.air-quality').style['background-color'] = color
         document.querySelector('.air-quality-block').style.setProperty('--border-bottom-color', `10px solid ${color}`)
@@ -144,7 +157,7 @@ axios({
     document.querySelector('.text-tempreture').innerText = `${result.data.now.temp}°`
     document.querySelector('.now-weather-pic').src = `img/day/${result.data.now.text}.png`
     //天气细节
-    const load = document.querySelector('.now-weather ul').querySelectorAll('li')
+    const load = document.querySelector('.now-weather .weather-detail').querySelectorAll('li')
     if (result.data.now.WindSpeed) {
         load[0].innerHTML = `
                         <span>${result.data.now.windDir}&nbsp;${result.data.now.windScale}-${result.data.now.WindSpeed}级</span>`
@@ -152,7 +165,7 @@ axios({
         load[0].innerHTML = `
                         <span>${result.data.now.windDir}&nbsp;${result.data.now.windScale}级</span>`
     }
-    load[0].style.setProperty('--before-background', `url(img/wind/${result.data.now.windDir}.png)`)
+    load[0].style.setProperty('--before-background', `url(cssimg/wind/${result.data.now.windDir}.png)`)
     load[1].innerHTML = `湿度&nbsp;${result.data.now.humidity}%`
     load[2].innerHTML = `${result.data.now.pressure}hPa`
 
@@ -296,3 +309,48 @@ axios({
 })
 
 
+//天气预警
+axios({
+    url: '/v7/warning/now',
+    method: 'GET',
+    params: {
+        key,
+        location: `${document.querySelector('.city').id}`,
+        lang: 'zh'
+    }
+}).then(result => {
+    const warnList = document.querySelector('.warning')
+
+    result.data.warning.forEach(item => {
+        const newli = warnList.children[0].cloneNode(true)
+        newli.style.display = 'inline-block'
+        newli.querySelector('.warning-content').style.display = 'block'
+        if (item.severityColor === 'Blue') {
+            newli.querySelector('.warning-content').style[`background-color`] = '#86c5f7'
+            newli.querySelector('.warning-head').style[`background-color`] = '#86c5f7'
+            newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #86c5f7')
+
+        }
+        else if (item.severityColor === 'Yellow') {
+            console.log('1');
+
+            newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid  #f5d271')
+            newli.querySelector('.warning-content').style[`background-color`] = '#f5d271'
+            newli.querySelector('.warning-head').style[`background-color`] = '#f5d271'
+
+        }
+        else if (item.severityColor === 'Red') {
+            newli.querySelector('.warning-content').style[`background-color`] = '#ef8c6b'
+            newli.querySelector('.warning-head').style[`background-color`] = '#ef8c6b'
+            newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #ef8c6b')
+
+        }
+
+        newli.querySelector('.warn-name').innerText = `${item.typeName}预警`
+        newli.querySelector('.warning-head').innerText = `${item.typeName}${item.level}预警`
+
+        newli.querySelector('.warning-detail').innerText = item.text
+        warnList.append(newli)
+
+    })
+})

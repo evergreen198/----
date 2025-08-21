@@ -114,7 +114,7 @@ SearchCity.addEventListener('input', () => {
             if (item.name.includes(SearchCity.value)) {
                 const newli = GetCityList.children[0].cloneNode(true)
                 newli.style.display = 'block'
-                newli.id=item.id
+                newli.id = item.id
                 if (item.name === item.adm2) {
                     newli.innerText = `${item.adm1}，${item.adm2}`
 
@@ -128,14 +128,14 @@ SearchCity.addEventListener('input', () => {
         })
         GetCityList.children[0].style.display = 'none'
 
-        GetCityList.addEventListener('click',e=>{
-            document.querySelector('.city').innerHTML=e.innerText
-            document.querySelector('.city').id=e.id
+        GetCityList.addEventListener('click', e => {
+            document.querySelector('.city').innerHTML = e.innerText
+            document.querySelector('.city').id = e.id
         })
     }).catch(error => {
         console.log('lose');
         console.log(error);
-        document.querySelector('.not-found').style.display='block'
+        document.querySelector('.not-found').style.display = 'block'
         CityBlock.style.display = 'none'
         SearchBlock.style.display = 'block'
     })
@@ -151,7 +151,19 @@ SearchCity.addEventListener('blur', () => {
 })
 
 //删除关注城市
-const delbtn=document.querySelectorAll('.delete')
-delbtn.addEventListener('click',(e)=>{
-    //删除该节点
+showFollowList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete')) {
+        const delcity = e.target.closest('.following-city')
+        console.log(e)
+        console.log(e.target)
+
+        const delcityid = delcity.id
+        const index = followingList.findIndex(item => item.id === delcityid)
+        followingList.splice(index, 1)
+        localStorage.setItem('followingList', JSON.stringify(followingList))
+        delcity.remove()
+    }
+    if (e.target.classList.contains('btn-set')) {
+
+    }
 })
