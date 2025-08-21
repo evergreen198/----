@@ -686,9 +686,11 @@
 
         if (!followingList) {
             followingList = new Array()
+            console.log('?');
+            
         }
         const cityList = followingList.map(item => item.city)
-
+        
         if (cityList.includes(document.querySelector('.city').innerText)) {
             followbtn.innerHTML = '[已关注]'
         }

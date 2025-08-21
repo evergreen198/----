@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    if (followingList.length) {
+    if (followingList.length>1) {
         //渲染
         document.querySelector('#follow-attention').style.display = 'none'
         const orili = showFollowList.children[0].cloneNode(true)
@@ -7,13 +7,22 @@ window.addEventListener('DOMContentLoaded', () => {
         //遍历关注城市的列表
         followingList.forEach((item) => {
             const newli = orili
-            newli.querySelector('.following-city').innerHTML = `${item.city}<a href="javascript:" class="btn-set">设为默认</a>`
+            newli.querySelector('.following-city').innerHTML = `${item.city}<a href="javascript:" class="btn-set">设为默认</a>
+                                    <a href="javascript:" class="btn-set1">取消默认</a>
+                                    <a href="javascript:" class="btn-set2">默认</a>`
             newli.querySelector('.following-city').id = item.id
-            console.log(item.id);
-            console.log('haha');
+            
+            if(item.isDefault===false){
+                newli.querySelector('.btn-set1').style.display = 'none'
+                newli.querySelector('.btn-set2').style.display = 'none'
+            }
+            else if(item.isDefault===true){
+                newli.querySelector('.btn-set').style.display = 'none'
+                newli.querySelector('.btn-set1').style.display = 'none'
+                newli.querySelector('.btn-set2').style.display = 'inline-block'
+                
+            }
 
-
-            //!待完成：发送请求查询天气,渲染
             axios({
                 url: '/v7/weather/3d',
                 method: 'GET',

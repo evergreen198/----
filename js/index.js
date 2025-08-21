@@ -66,12 +66,13 @@ LivingBtnl.addEventListener('click', () => {
 followbtn.addEventListener('click', () => {
     console.log(1);
     console.log(followingList);
+
     const city = document.querySelector('.city').innerText
     if (!cityList.includes(city)) {
         const newcity = {
             city,
             province: '',
-            id: '',
+            id: `${document.querySelector('.city').id}`,
             isDefault: false
         }
         followingList.push(newcity)
@@ -152,18 +153,58 @@ SearchCity.addEventListener('blur', () => {
 
 //删除关注城市
 showFollowList.addEventListener('click', (e) => {
-    if (e.target.classList.contains('delete')) {
-        const delcity = e.target.closest('.following-city')
-        console.log(e)
-        console.log(e.target)
+    console.log(e);
+    console.log(e.target);
+    console.log(e.target.className);
+    console.log(e.target.parentNode)
+    const targetli = e.target.parentNode
 
-        const delcityid = delcity.id
-        const index = followingList.findIndex(item => item.id === delcityid)
-        followingList.splice(index, 1)
-        localStorage.setItem('followingList', JSON.stringify(followingList))
-        delcity.remove()
-    }
-    if (e.target.classList.contains('btn-set')) {
+    const getFollowCityList = document.querySelector('.follow-list').querySelectorAll('li')
 
+    if (e.target.className === 'delete') {
+        const getid = targetli.querySelector('.following-city').id
+        followingList.forEach((item, index) => {
+            if (item.id === getid) {
+                followingList.splice(index, 1)
+            }
+        })
+    } else if (e.target.className === 'btn-set') {//设为默认
+        const getid = targetli.id
+        followingList.forEach((item, inedx) => {
+            if (item.id === getid) {
+                item.isDefault = true
+                //待完成：回显√
+                //待完成：显示逻辑处理
+
+            }
+        })
+        getFollowCityList.forEach(item => {
+            console.log(item.querySelector('.btn-set1'));
+            console.log('?');
+            console.log(item);
+            
+            if (item.querySelector('.following-city').id === getid) {
+                item.querySelector('.btn-set2').style.display = 'inline-block'
+                item.querySelector('.btn-set1').style.display = 'none'
+                item.querySelector('.btn-set').style.display = 'none'
+            }
+        })
+    } else if (e.target.className === 'btn-set1') {
+        const getid = targetli.id
+
+        followingList.forEach((item, inedx) => {
+            if (item.id === getid) {
+                item.isDefault = false
+                //待完成：回显
+            }
+        })
+        getFollowCityList.forEach(item => {
+            if (item.querySelector('.following-city').id === getid) {
+                item.querySelector('.btn-set1').style.display = 'inline-block'
+                item.querySelector('.btn-set2').style.display = 'none'
+            }
+        })
     }
+    localStorage.setItem('followingList', JSON.stringify(followingList))
+
 })

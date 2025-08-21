@@ -162,11 +162,8 @@ header {
     margin: 0;
     font-size: 12px;
     display: none;
-    color: #63b6f6;
-    ;
-    background: #f7f7f7;
+    color: #63b6f6 !important;
     border: 1px solid #63b6f6;
-    ;
     border-radius: 4px;
     height: 18px;
     line-height: 18px;
@@ -625,7 +622,7 @@ header {
 }
 
 .air-press::before {
-    background: url(Living-image.css);
+    background: url(cssimg/P.png);
 }
 
 .car::before {
