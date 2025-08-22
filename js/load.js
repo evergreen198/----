@@ -1,26 +1,26 @@
 window.addEventListener('DOMContentLoaded', () => {
-    if (followingList.length>1) {
+    if (followingList.length > 1) {
         //渲染
         document.querySelector('#follow-attention').style.display = 'none'
         const orili = showFollowList.children[0].cloneNode(true)
 
         //遍历关注城市的列表
         followingList.forEach((item) => {
-            const newli = orili
+            const newli = orili.cloneNode(true);
             newli.querySelector('.following-city').innerHTML = `${item.city}<a href="javascript:" class="btn-set">设为默认</a>
                                     <a href="javascript:" class="btn-set1">取消默认</a>
                                     <a href="javascript:" class="btn-set2">默认</a>`
             newli.querySelector('.following-city').id = item.id
-            
-            if(item.isDefault===false){
+
+            if (item.isDefault === false) {
                 newli.querySelector('.btn-set1').style.display = 'none'
                 newli.querySelector('.btn-set2').style.display = 'none'
             }
-            else if(item.isDefault===true){
+            else if (item.isDefault === true) {
                 newli.querySelector('.btn-set').style.display = 'none'
                 newli.querySelector('.btn-set1').style.display = 'none'
                 newli.querySelector('.btn-set2').style.display = 'inline-block'
-                
+
             }
 
             axios({
@@ -42,25 +42,23 @@ window.addEventListener('DOMContentLoaded', () => {
             })
         })
     }
-    if (searchHistory && searchHistory.length) {
-        //渲染
-    }
 })
+
 //加载历史记录
 window.addEventListener('DOMContentLoaded', () => {
-    if(searchHistory.length>5){
-        searchHistory.splice(5,searchHistory.length - 5)
+    if (searchHistory.length > 5) {
+        searchHistory.splice(5, searchHistory.length - 5)
     }
-    if (searchHistory.length>1){
-        searchHistory.forEach(item=>{
-            const cityRecordList=document.querySelector('.city-record-list')
-            const newli=cityRecordList.children[0].cloneNode(true)
-            newli.querySelector('span').innerText=item.city
-            newli.querySelector('span').id=item.id
+    if (searchHistory.length > 1) {
+        searchHistory.forEach(item => {
+            const cityRecordList = document.querySelector('.city-record-list')
+            const newli = cityRecordList.children[0].cloneNode(true)
+            newli.querySelector('span').innerText = item.city
+            newli.querySelector('span').id = item.id
         })
-    }else{
-        document.querySelector('.city-record-block').style.display='none'
-        document.querySelector('.city-record-list').style.display='none'
+    } else {
+        document.querySelector('.city-record-block').style.display = 'none'
+        document.querySelector('.city-record-list').style.display = 'none'
     }
 })
 
@@ -74,33 +72,40 @@ function ToSplit2(str) {
     return parseInt(str.split(":")[0]) * 24 + parseInt(str.split(":")[1])
 }
 
-//热门城市查询
-axios({
-    url: '/geo/v2/city/top',
-    method: 'GET',
-    params: {
-        key,
-        number: 20,
-        range: 'cn',
-        lang: 'zh'
-    }
-}).then(result => {
-    const hotCityList = document.querySelector('.city-hot-list').querySelectorAll('li')
-    hotCityList.forEach((item, index) => {
-        item.innerHTML = `<span>${result.data.topCityList[index].name}</span>`
-    })
 
-}).catch(error => {
-    console.log('1');
-    console.log(error);
+
+
+//热门城市查询
+window.addEventListener('DOMContentLoaded', () => {
+    axios({
+        url: '/geo/v2/city/top',
+        method: 'GET',
+        params: {
+            key,
+            number: 20,
+            range: 'cn',
+            lang: 'zh'
+        }
+    }).then(result => {
+        const hotCityList = document.querySelector('.city-hot-list').querySelectorAll('li')
+        hotCityList.forEach((item, index) => {
+            item.innerHTML = `<span>${result.data.topCityList[index].name}</span>`
+            item.querySelector('span').id=result.data.topCityList[index].id
+        })
+
+    }).catch(error => {
+        console.log('1');
+        console.log(error);
+    })
 })
+
 
 const followCity = JSON.parse(localStorage.getItem('followcity'))
 
 //城市经纬度获取
 let latitude
 let longitude
-axios({
+window.addEventListener('DOMContentLoaded',()=>{axios({
     url: '/geo/v2/city/lookup',
     method: 'GET',
     params: {
@@ -127,15 +132,18 @@ axios({
     }).then(result => {
         document.querySelector('.air-imfor').innerText = result.data.indexes[0].category
         let color
-        if (result.data.indexes[0].category === '良') { color = '#f0cc35' 
-            document.querySelector('.air-spot').src='img/quality2.png'
+        if (result.data.indexes[0].category === '良') {
+            color = '#f0cc35'
+            document.querySelector('.air-spot').src = 'img/quality2.png'
         }
-        else if (result.data.indexes[0].category === '优') { color='#a3d765'
-            document.querySelector('.air-spot').src='img/quality1.png'
+        else if (result.data.indexes[0].category === '优') {
+            color = '#a3d765'
+            document.querySelector('.air-spot').src = 'img/quality1.png'
 
         }
-        else {color='#f1ab62' 
-            document.querySelector('.air-spot').src='img/quality3.png'
+        else {
+            color = '#f1ab62'
+            document.querySelector('.air-spot').src = 'img/quality3.png'
 
         }
         document.querySelector('.quality-head').innerHTML = `空气质量指数&nbsp;${result.data.indexes[0].aqi}&nbsp;${result.data.indexes[0].category}`
@@ -163,11 +171,11 @@ axios({
     console.log(error)
 
 
-})
+})})
 
 
 //当地天气
-axios({
+window.addEventListener('DOMContentLoaded',()=>{axios({
     url: '/v7/weather/now',
     method: 'GET',
     params: {
@@ -197,11 +205,11 @@ axios({
     load[1].innerHTML = `湿度&nbsp;${result.data.now.humidity}%`
     load[2].innerHTML = `${result.data.now.pressure}hPa`
 
-})
+})})
 
 
 //生活指数
-axios({
+window.addEventListener('DOMContentLoaded',()=>{axios({
     url: '/v7/indices/1d',
     method: 'GET',
     params: {
@@ -251,7 +259,7 @@ axios({
     LivingList[11].querySelector('.Living-detail').innerText = result.data.daily[9].text
 
 
-})
+})})
 
 function getzero(str) {
     return str < 10 ? '0' + str : str
@@ -261,7 +269,7 @@ const newDate = new Date()
 const date = `${newDate.getFullYear()}${getzero(newDate.getMonth() + 1)}${getzero(newDate.getDate() + 1)}`
 let sun = new Array()
 //日出日落时间
-axios({
+window.addEventListener('DOMContentLoaded',()=>{axios({
     url: '/v7/astronomy/sun',
     method: 'GET',
     params: {
@@ -335,10 +343,10 @@ axios({
     })
 
 })
-
+})
 
 //天气预警
-axios({
+window.addEventListener('DOMContentLoaded',()=>{axios({
     url: '/v7/warning/now',
     method: 'GET',
     params: {
@@ -381,4 +389,4 @@ axios({
         warnList.append(newli)
 
     })
-})
+})})

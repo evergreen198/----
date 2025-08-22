@@ -55,7 +55,7 @@
                         <p class="city-title">当前定位</p>
                         <ul>
                             <li class="city-now">
-                                <span>桂林</span>
+                                <span id="101010100">北京</span>
                             </li>
                         </ul>
                         <div class="city-record-block clearfix">
@@ -686,6 +686,7 @@
         let followingList = JSON.parse(localStorage.getItem('followingList'))
         let searchHistory = JSON.parse(localStorage.getItem('searchHistory'))
         const showFollowList = document.querySelector('.follow-list')
+        const foundList = document.querySelector('.found-list')
 
         if (!followingList) {
             followingList = new Array()
@@ -707,6 +708,7 @@
     <script src="js/request.js"></script>
     <script src="js/load.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/change.js"></script>
 </body>
 
 </html>
