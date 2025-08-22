@@ -43,10 +43,13 @@
                 <div class="input-block" style="display: inline-block;">
                     <input type="input" class="search-city" placeholder="请输入市、区、县等">
                     <div class="search-city-block2">
+
                         <p class="not-found">抱歉，未找到相关位置</p>
+
                         <ul class="found-list">
                             <li class="sample">北京</li>
                         </ul>
+
                     </div>
                     <div class="search-city-block">
                         <p class="city-title">当前定位</p>
@@ -61,7 +64,7 @@
                         </div>
                         <ul class="city-record-list">
                             <li>
-                                <span>上海</span>
+                                <span id="">上海</span>
                             </li>
                         </ul>
                         <p class="city-hot city-title">热门城市</p>
@@ -686,6 +689,11 @@
 
         if (!followingList) {
             followingList = new Array()
+            console.log('?');
+            
+        }
+        if (!showFollowList) {
+            showFollowList = new Array()
             console.log('?');
             
         }

@@ -3,6 +3,7 @@ const inputSearchCity = document.querySelector('.search-city')
 const CityBlock = document.querySelector('.search-city-block')
 const SearchBlock = document.querySelector('.search-city-block2')
 const GetCityList = SearchBlock.querySelector('ul')
+const foundList=document.querySelector('.found-list')
 
 inputSearchCity.addEventListener('focus', () => {
     CityBlock.style.display = 'block';
@@ -151,7 +152,7 @@ SearchCity.addEventListener('blur', () => {
     GetCityList.appendChild(orinode)
 })
 
-//删除关注城市
+//删除关注城市、设为默认
 showFollowList.addEventListener('click', (e) => {
     console.log(e);
     console.log(e.target);
@@ -160,12 +161,13 @@ showFollowList.addEventListener('click', (e) => {
     const targetli = e.target.parentNode
 
     const getFollowCityList = document.querySelector('.follow-list').querySelectorAll('li')
-
+    //删除
     if (e.target.className === 'delete') {
         const getid = targetli.querySelector('.following-city').id
         followingList.forEach((item, index) => {
             if (item.id === getid) {
                 followingList.splice(index, 1)
+                //待完成：回显
             }
         })
     } else if (e.target.className === 'btn-set') {//设为默认
@@ -173,9 +175,6 @@ showFollowList.addEventListener('click', (e) => {
         followingList.forEach((item, inedx) => {
             if (item.id === getid) {
                 item.isDefault = true
-                //待完成：回显√
-                //待完成：显示逻辑处理
-
             }
         })
         getFollowCityList.forEach(item => {
@@ -195,7 +194,6 @@ showFollowList.addEventListener('click', (e) => {
         followingList.forEach((item, inedx) => {
             if (item.id === getid) {
                 item.isDefault = false
-                //待完成：回显
             }
         })
         getFollowCityList.forEach(item => {
@@ -206,5 +204,39 @@ showFollowList.addEventListener('click', (e) => {
         })
     }
     localStorage.setItem('followingList', JSON.stringify(followingList))
+
+})
+
+//默认城市显示
+showFollowList.addEventListener('mouseover',e=>{
+    console.log(e.target);
+    console.log(e.target.parentNode);
+    if(e.target.parentNode.querySelector('.btn-set2').style.display==='inline-block'){
+        e.target.parentNode.querySelector('.btn-set2').style.display='none'
+        e.target.parentNode.querySelector('.btn-set1').style.display='inline-block'
+    }
+    else{
+        e.target.parentNode.querySelector('.btn-set').style.display='inline-block'
+        console.log( e.target.parentNode.querySelector('.btn-set'));
+        
+        console.log('??');
+        
+    }
+})
+showFollowList.addEventListener('mouseout',e=>{
+    console.log(e.target);
+    console.log(e.target.parentNode);
+    if(e.target.parentNode.querySelector('.btn-set1').style.display==='inline-block'){
+        e.target.parentNode.querySelector('.btn-set1').style.display='none'
+        e.target.parentNode.querySelector('.btn-set2').style.display='inline-block'
+    }
+    else{
+        e.target.parentNode.querySelector('.btn-set').style.display='none'
+
+    }
+})
+
+//添加历史记录
+foundList.addEventListener('click',e=>{
 
 })

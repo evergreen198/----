@@ -46,6 +46,25 @@ window.addEventListener('DOMContentLoaded', () => {
         //渲染
     }
 })
+//加载历史记录
+window.addEventListener('DOMContentLoaded', () => {
+    if(searchHistory.length>5){
+        searchHistory.splice(5,searchHistory.length - 5)
+    }
+    if (searchHistory.length>1){
+        searchHistory.forEach(item=>{
+            const cityRecordList=document.querySelector('.city-record-list')
+            const newli=cityRecordList.children[0].cloneNode(true)
+            newli.querySelector('span').innerText=item.city
+            newli.querySelector('span').id=item.id
+        })
+    }else{
+        document.querySelector('.city-record-block').style.display='none'
+        document.querySelector('.city-record-list').style.display='none'
+    }
+})
+
+
 
 function ToSplit1(str) {
     return str.split("T")[1].split("+")[0]
