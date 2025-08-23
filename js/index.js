@@ -3,7 +3,7 @@ const inputSearchCity = document.querySelector('.search-city')
 const CityBlock = document.querySelector('.search-city-block')
 const SearchBlock = document.querySelector('.search-city-block2')
 const GetCityList = SearchBlock.querySelector('ul')
-const HotCityList=document.querySelector('.city-hot-list')
+const HotCityList = document.querySelector('.city-hot-list')
 inputSearchCity.addEventListener('focus', () => {
     CityBlock.style.display = 'block';
 })
@@ -327,5 +327,20 @@ HotCityList.addEventListener('mousedown', e => {
     console.log(e.target.parentNode);
     document.querySelector('.city').innerText = e.target.innerText.split('，')[e.target.innerText.split('，').length - 1]
     document.querySelector('.city').id = e.target.id
+})
+showFollowList.addEventListener('mousedown', e => {
+    console.log('fuck');
+    console.log(e);
+    console.log(e.target);
+    console.log(e.target.parentNode);
+    if (e.target.className === 'btn-set' || e.target.className === 'btn-set1' || e.target.className === 'btn-set2' || e.target.className === 'delete') {
+        console.log('nothing happend')
+    }
+    else {
+        const tempname=e.target.parentNode.querySelector('.following-city span').innerText
+        
+        document.querySelector('.city').innerText = tempname
+        document.querySelector('.city').id = e.target.parentNode.id
+    }
 
 })

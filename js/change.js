@@ -10,38 +10,49 @@ function ToSplit2(str) {
 //城市经纬度获取
 const target = document.querySelector('.city')
 const observer = new MutationObserver(mutations => {
-  mutations.forEach(mutation => {
-    console.log('内容变化了：', target.innerText);
-    weatherWarning()
-    weatherDetail()
-    airCondition()
-    LivingCondition()
-    Suncondition()
-    checkfollow()
-    HistoryList()
-  });
+    mutations.forEach(mutation => {
+        console.log('内容变化了：', target.innerText);
+        weatherWarning()
+        weatherDetail()
+        airCondition()
+        LivingCondition()
+        Suncondition()
+        checkfollow()
+        HistoryList()
+    });
 });
 
 observer.observe(target, {
-  childList: true,       // 监听子节点变化
-  characterData: true,   // 监听文本节点变化
-  subtree: true          // 监听所有后代节点
+    childList: true,       // 监听子节点变化
+    characterData: true,   // 监听文本节点变化
+    subtree: true          // 监听所有后代节点
 });
 
-function HistoryList(){}
-
-function checkfollow(){
-    flag=0
-    followingList.forEach(item=>{
-        if(item.city===document.querySelector('.city').innerText){
-            flag=1
-        }
-    })
-    if(flag){document.querySelector('.following').innerText='[已关注]'}
-    else{document.querySelector('.following').innerText='[添加关注]'}
+function HistoryList() {
+    //searchHistory
+    const cityHistoryList = document.querySelector('.city-record-list')
+    const newli=cityHistoryList.children[0].cloneNode(true)
+    newli.querySelector(span).innerHTML=document.querySelector('.city').innerText
+    newli.querySelector(span).id=document.querySelector('.city').id
+    cityHistoryList.insertBefore(newli,cityHistoryList.firstChild)
+    while (cityHistoryList.children.length > 4) {
+        cityHistoryList.removeChild(cityHistoryList.lastChild);
+    }
+    localStorage.setItem('searchHistory',JSON.stringify(cityHistoryList))
 }
 
-function airCondition(){
+function checkfollow() {
+    flag = 0
+    followingList.forEach(item => {
+        if (item.city === document.querySelector('.city').innerText) {
+            flag = 1
+        }
+    })
+    if (flag) { document.querySelector('.following').innerText = '[已关注]' }
+    else { document.querySelector('.following').innerText = '[添加关注]' }
+}
+
+function airCondition() {
     axios({
         url: '/geo/v2/city/lookup',
         method: 'GET',
@@ -111,7 +122,7 @@ function airCondition(){
     })
 }
 //当地天气
-function weatherDetail(){
+function weatherDetail() {
     axios({
         url: '/v7/weather/now',
         method: 'GET',
@@ -145,7 +156,7 @@ function weatherDetail(){
     })
 }
 //生活指数
-function LivingCondition(){
+function LivingCondition() {
     axios({
         url: '/v7/indices/1d',
         method: 'GET',
@@ -204,7 +215,7 @@ function getzero(str) {
 }
 
 //日出日落时间
-function Suncondition(){
+function Suncondition() {
     axios({
         url: '/v7/astronomy/sun',
         method: 'GET',
@@ -282,7 +293,11 @@ function Suncondition(){
 }
 
 //天气预警
-function weatherWarning(){
+function weatherWarning() {
+    const warnList = document.querySelector('.warning')
+    while (warnList.children.length > 1) {
+        warnList.removeChild(warnList.lastChild);
+    }
     axios({
         url: '/v7/warning/now',
         method: 'GET',
@@ -292,8 +307,6 @@ function weatherWarning(){
             lang: 'zh'
         }
     }).then(result => {
-        const warnList = document.querySelector('.warning')
-
         result.data.warning.forEach(item => {
             const newli = warnList.children[0].cloneNode(true)
             newli.style.display = 'inline-block'
@@ -312,12 +325,31 @@ function weatherWarning(){
                 newli.querySelector('.warning-head').style[`background-color`] = '#f5d271'
 
             }
-            else if (item.severityColor === 'Red') {
+            else if (item.severityColor === 'Orange') {
                 newli.querySelector('.warning-content').style[`background-color`] = '#ef8c6b'
                 newli.querySelector('.warning-head').style[`background-color`] = '#ef8c6b'
                 newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #ef8c6b')
 
+            } else if (item.severityColor === 'Green') {
+                newli.querySelector('.warning-content').style[`background-color`] = '#a3d765'
+                newli.querySelector('.warning-head').style[`background-color`] = '#a3d765'
+                newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #a3d765')
             }
+            else if (item.severityColor === 'White') {
+                newli.querySelector('.warning-content').style[`background-color`] = '#fff'
+                newli.querySelector('.warning-content').style[`color`] = '#000'
+                newli.querySelector('.warn-name').style['color']='#000'
+                newli.querySelector('.warning-head').style[`background-color`] = '#fff'
+                newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #fff')
+            }
+            else if (item.severityColor === 'Red') {
+                newli.querySelector('.warning-content').style[`background-color`] = '#f66863'
+                newli.querySelector('.warning-head').style[`background-color`] = '#f66863'
+                newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #f66863')
+            }else if (item.severityColor === 'Black') {
+                newli.querySelector('.warning-content').style[`background-color`] = '#000'
+                newli.querySelector('.warning-head').style[`background-color`] = '#000'
+                newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #000')}
 
             newli.querySelector('.warn-name').innerText = `${item.typeName}预警`
             newli.querySelector('.warning-head').innerText = `${item.typeName}${item.level}预警`
