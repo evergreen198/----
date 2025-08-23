@@ -247,6 +247,8 @@ showFollowList.addEventListener('click', (e) => {
         followingList.forEach(item => {
             if (item.id === getid) {
                 item.isDefault = true
+            }else{
+                item.isDefault=false
             }
         })
         getFollowCityList.forEach(item => {
@@ -280,7 +282,7 @@ showFollowList.addEventListener('click', (e) => {
         })
     }
     localStorage.setItem('followingList', JSON.stringify(followingList))
-
+    isDefaultUpload()
 })
 
 //默认城市显示
@@ -325,9 +327,18 @@ HotCityList.addEventListener('mousedown', e => {
     console.log(e);
     console.log(e.target);
     console.log(e.target.parentNode);
-    document.querySelector('.city').innerText = e.target.innerText.split('，')[e.target.innerText.split('，').length - 1]
-    document.querySelector('.city').id = e.target.id
+    if(e.target.id){
+        document.querySelector('.city').innerText = e.target.innerText.split('，')[e.target.innerText.split('，').length - 1]
+        document.querySelector('.city').id = e.target.id
+    }
+    else{
+        
+        document.querySelector('.city').innerText = e.target.innerText.split('，')[e.target.innerText.split('，').length - 1]
+        document.querySelector('.city').id = e.target.querySelector('span').id
+    }
+
 })
+
 showFollowList.addEventListener('mousedown', e => {
     console.log('fuck');
     console.log(e);
@@ -338,9 +349,32 @@ showFollowList.addEventListener('mousedown', e => {
     }
     else {
         const tempname=e.target.parentNode.querySelector('.following-city span').innerText
-        
         document.querySelector('.city').innerText = tempname
         document.querySelector('.city').id = e.target.parentNode.id
     }
-
 })
+
+const getHistoryList=document.querySelector('.city-record-list')
+getHistoryList.addEventListener('mousedown',e=>{
+    console.log('fuck');
+    console.log(e);
+    console.log(e.target);
+    console.log(e.target.parentNode);
+    if(e.target.id){
+        document.querySelector('.city').innerText = e.target.innerText
+        document.querySelector('.city').id = e.target.id
+    }
+    else{
+        document.querySelector('.city').innerText = e.target.innerText
+        document.querySelector('.city').id = e.target.querySelector('span').id
+    }
+})
+
+const delHistoryBtn=document.querySelector('.delete-history')
+delHistoryBtn.addEventListener('mousedown',()=>{
+    searchHistory=[]
+    localStorage.setItem('searchHistory',JSON.stringify(searchHistory))
+    document.querySelector('.city-record-list').innerHTML=''
+    document.querySelector('.city-record-block').style.display='none'
+}
+)

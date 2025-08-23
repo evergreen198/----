@@ -1,4 +1,5 @@
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', isDefaultUpload())
+function isDefaultUpload(){
     if (followingList.length > 1) {
         //渲染
         document.querySelector('#follow-attention').style.display = 'none'
@@ -20,7 +21,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 newli.querySelector('.btn-set').style.display = 'none'
                 newli.querySelector('.btn-set1').style.display = 'none'
                 newli.querySelector('.btn-set2').style.display = 'inline-block'
-
+                document.querySelector('.city').innerText=item.city
+                document.querySelector('.city').id=item.id
             }
 
             axios({
@@ -42,26 +44,41 @@ window.addEventListener('DOMContentLoaded', () => {
             })
         })
     }
-})
+    refreashHistoryAllow=1
+}
 
 //加载历史记录
-window.addEventListener('DOMContentLoaded', () => {
-    if (searchHistory.length > 5) {
-        //searchHistory是数组
-        searchHistory.splice(5, searchHistory.length - 5)
-    }
-    if (searchHistory.length > 1) {
+function LoadHistory(){
+    const cityRecordList = document.querySelector('.city-record-list')
+    //如果不是空列表
+    console.log(searchHistory.length);
+
+    if (searchHistory.length) {
+        document.querySelector('.city-record-block').style.display = 'block'
+        document.querySelector('.city-record-list').style.display = 'block'
+        if (searchHistory.length > 4) {
+            searchHistory.splice(4, searchHistory.length - 4)
+        }
         searchHistory.forEach(item => {
-            const cityRecordList = document.querySelector('.city-record-list')
-            const newli = cityRecordList.children[0].cloneNode(true)
-            newli.querySelector('span').innerText = item.city
-            newli.querySelector('span').id = item.id
+            console.log('wwwwwhy');
+            
+            const newli = document.createElement('li')
+            newli.style.display='inline-block'
+            newli.innerHTML = `<span>${item.city}</span>`
+            newli.querySelector('span').id=item.id
+            cityRecordList.append(newli)
         })
-    } else {
+    }
+    //如果是空
+    else {
         document.querySelector('.city-record-block').style.display = 'none'
         document.querySelector('.city-record-list').style.display = 'none'
     }
-})
+    while(cityRecordList.children.length>4){
+        cityRecordList.removeChild(cityRecordList.firstChild)
+    }
+}
+window.addEventListener('DOMContentLoaded', LoadHistory())
 
 
 
@@ -288,7 +305,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }).then(result => {
         sun[0] = ToSplit1(result.data.sunrise)
         sun[1] = ToSplit1(result.data.sunset)
-
+        
 
         //每小时+日出日落天气渲染
         axios({
@@ -316,14 +333,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
-                if (transSunrise > transtime && transSunrise < transnexttime) {
+                if (transSunrise >= transtime && transSunrise < transnexttime&&result.data.hourly[index].temp!='日出'&&result.data.hourly[index].temp!='日落') {
                     const sunriseobj = new Object()
                     sunriseobj.fxTime = `1T${sun[0]}+1`
                     sunriseobj.temp = '日出'
                     sunriseobj.text = '日出'
                     result.data.hourly.splice(index + 1, 0, sunriseobj)
                     flag = 'day'
-                } else if (transSunset > transtime && transSunset < transnexttime) {
+                } else if (transSunset >= transtime && transSunset < transnexttime&&result.data.hourly[index].temp!='日出'&&result.data.hourly[index].temp!='日落') {
                     const sunsetobj = new Object()
                     sunsetobj.fxTime = `1T${sun[1]}+1`
                     sunsetobj.temp = '日落'
@@ -399,7 +416,7 @@ window.addEventListener('DOMContentLoaded', () => {
             else if (item.severityColor === 'White') {
                 newli.querySelector('.warning-content').style[`background-color`] = '#fff'
                 newli.querySelector('.warning-content').style[`color`] = '#000'
-                newli.querySelector('.warn-name').style['color']='#000'
+                newli.querySelector('.warn-name').style['color'] = '#000'
                 newli.querySelector('.warning-head').style[`background-color`] = '#fff'
                 newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #fff')
             }
@@ -407,10 +424,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 newli.querySelector('.warning-content').style[`background-color`] = '#f66863'
                 newli.querySelector('.warning-head').style[`background-color`] = '#f66863'
                 newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #f66863')
-            }else if (item.severityColor === 'Black') {
+            } else if (item.severityColor === 'Black') {
                 newli.querySelector('.warning-content').style[`background-color`] = '#000'
                 newli.querySelector('.warning-head').style[`background-color`] = '#000'
-                newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #000')}
+                newli.querySelector('.warning-block').style.setProperty('--border-bottom-color', '10px solid #000')
+            }
 
 
             newli.querySelector('.warn-name').innerText = `${item.typeName}预警`

@@ -335,15 +335,28 @@ header {
 }
 
 .city-record-list {
-    margin-bottom: 20px;
+    margin-left: 20px;
+    
 }
 
 .city-record-list li {
+    float: left;
+    line-height: 28px;
+    width: 25%;
+    height: 28px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+    /* display: inline-block;
     margin-left: 20px;
     height: 14px;
     font-size: 14px;
     color: #555;
-    line-height: 14px;
+    line-height: 14px; */
 }
 
 .city-hot-list {

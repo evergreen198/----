@@ -18,7 +18,7 @@ const observer = new MutationObserver(mutations => {
         LivingCondition()
         Suncondition()
         checkfollow()
-        HistoryList()
+       if(refreashHistoryAllow){ HistoryList()}
     });
 });
 
@@ -29,16 +29,47 @@ observer.observe(target, {
 });
 
 function HistoryList() {
-    //searchHistory
-    const cityHistoryList = document.querySelector('.city-record-list')
-    const newli=cityHistoryList.children[0].cloneNode(true)
-    newli.querySelector(span).innerHTML=document.querySelector('.city').innerText
-    newli.querySelector(span).id=document.querySelector('.city').id
-    cityHistoryList.insertBefore(newli,cityHistoryList.firstChild)
-    while (cityHistoryList.children.length > 4) {
-        cityHistoryList.removeChild(cityHistoryList.lastChild);
+    //获取要渲染的对象和要放入的元素
+    const tempcity=document.querySelector('.city')//要加入历史记录的城市
+    const cityRecordList = document.querySelector('.city-record-list')//待渲染的历史记录
+    // const templi=document.createElement('li')//创建dom元素
+    // templi.innerHTML=`<span>${tempcity.innerText}</span>`
+    // templi.id=tempcity.id
+    //检测是否在历史中
+    searchHistory.forEach((item,index)=>{
+        if(item.id===tempcity.id){
+            //如果在历史记录里，删除
+            searchHistory.splice(index,1)
+        }
+    })
+    //在原来插入->已经回显
+    // cityRecordList.insertBefore(templi,cityRecordList.firstChild)//插入dom元素
+    //限制数量
+    while(cityRecordList.children.length>4){
+        cityRecordList.removeChild(cityRecordList.lastChild)
     }
-    localStorage.setItem('searchHistory',JSON.stringify(cityHistoryList))
+    //存入本地存储
+
+    const tempobj={
+        city:`${tempcity.innerText}`,
+        id:`${tempcity.id}`
+    }
+    searchHistory.unshift(tempobj)
+
+    if (searchHistory.length) {
+        if(searchHistory.length>4){
+            searchHistory.splice(4,searchHistory.length-4)
+        }
+    }
+    localStorage.setItem('searchHistory',JSON.stringify(searchHistory))
+    LoadHistory()
+    // if(searchHistory.length){
+    // document.querySelector('.city-record-block').style.display='block'
+    // document.querySelector('.city-record-list').style.display='block'
+    // }else{
+    //         document.querySelector('.city-record-block').style.display='none'
+    // document.querySelector('.city-record-list').style.display='none'
+    // }
 }
 
 function checkfollow() {
