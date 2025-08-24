@@ -1107,8 +1107,6 @@ footer a {
 }
 
 canvas{
-    background-color:aqua;
-    opacity: 0.5;
     position: absolute;
     top: 150px;
 }

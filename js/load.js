@@ -487,10 +487,84 @@ function getNext7DaysWeekdays() {
     return result;
 }
 
-const weekArray=getNext7DaysWeekdays()
+const weekArray = getNext7DaysWeekdays()
+
+const canvas = document.querySelector('canvas')
+const ctx = canvas.getContext('2d')
+ctx.translate(0, 174)
+const Xfoot = 740 / 16
+
+const canvasDayData = []//最高气温
+const canvasNightData = []//最低气温
+
+function drawMaxAxes() {
+    ctx.beginPath();
+    ctx.moveTo(Xfoot, (canvasDayData[0] / 50) * (-174)-15); // 第一个点
+
+    for (let i = 1; i < canvasDayData.length; i++) {
+        ctx.lineTo((2 * i + 1) * Xfoot, (canvasDayData[i] / 50) * (-174)-15);
+    }        // X轴向右
+    ctx.strokeStyle = 'rgb(252,195,112)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+}
+
+function drawMinAxes() {
+    ctx.beginPath();
+    ctx.moveTo(Xfoot, (canvasNightData[0] / 50) * (-174)+24); // 第一个点
+
+    for (let i = 0; i < canvasNightData.length; i++) {
+        ctx.lineTo((2 * i + 1) * Xfoot, (canvasNightData[i] / 50) * (-174)+24);
+        console.log('made it');
+
+    }        // X轴向右
+    ctx.strokeStyle = 'rgb(148,204,249)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+}
+
+
+function drawMaxDots() {
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.beginPath();
+    ctx.moveTo(Xfoot, (canvasDayData[0] / 50) * (-174)-15); // 第一个点
+
+    for (let i = 0; i < canvasDayData.length; i++) {
+
+        const tempX=(2 * i + 1) * Xfoot
+        const tempY= (canvasDayData[i] / 50) * (-174)-15
+        ctx.beginPath();
+        ctx.arc(tempX,tempY, 3, 0, Math.PI * 2)
+        ctx.fillStyle = 'rgb(252,195,112)'
+        ctx.strokeStyle = 'rgb(252,195,112)'
+        ctx.fill()
+        ctx.fillText(`${canvasDayData[i]}°`, tempX, tempY-10)
+        ctx.stroke()
+    }        // X轴向右
+}
+
+function drawMinDots() {
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.beginPath();
+    ctx.moveTo(Xfoot, (canvasNightData[0] / 50) * (-174)+24); // 第一个点
+
+    for (let i = 0; i < canvasDayData.length; i++) {
+        const tempX=(2 * i + 1) * Xfoot
+        const tempY= (canvasNightData[i] / 50) * (-174)+24
+        ctx.beginPath()
+        ctx.arc(tempX, tempY, 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgb(148,204,249)'
+        ctx.strokeStyle = 'rgb(148,204,249)'
+        ctx.fill()
+        ctx.fillText(`${canvasNightData[i]}°`, tempX, tempY+22)
+        ctx.stroke()
+    }        // X轴向右
+}
 
 //七日天气预报
-function LoadweakWeather(){
+function LoadweakWeather() {
     //时光机
     axios({
         url: '/v7/historical/weather',
@@ -498,62 +572,58 @@ function LoadweakWeather(){
         params: {
             key,
             location: `${document.querySelector('.city').id}`,
-            date:`${getYesterdayDate()}`,
+            date: `${getYesterdayDate()}`,
             lang: 'zh',
             unit: 'm'
         }
-    }).then(result=>{
-        const tempweather=result.data
-        const yes=document.querySelector('.week-first')
-        yes.querySelector('.week-date').innerText=  `${tempweather.weatherDaily.date.split('-')[1]}月${tempweather.weatherDaily.date.split('-')[2]}日`
-        yes.querySelector('.dayweather').innerText=`${tempweather.weatherHourly[0].text}`
-        yes.querySelector('.nightweather').innerText=`${tempweather.weatherHourly[23].text}`
-        yes.querySelector('.week-wind').innerText=`${tempweather.weatherHourly[23].windDir}${tempweather.weatherHourly[23].windScale}级`
-        yes.querySelector('.week-dayweather img').src=`img/weather/day/${tempweather.weatherHourly[0].text}.png`
-        yes.querySelector('.week-nightweather img').src=`img/weather/night/${tempweather.weatherHourly[23].text}.png`
+    }).then(result => {
+        const tempweather = result.data
+        const yes = document.querySelector('.week-first')
+
+        canvasDayData.push(parseInt(tempweather.weatherDaily.tempMax))
+        canvasNightData.push(parseInt(tempweather.weatherDaily.tempMin))
+        yes.querySelector('.week-date').innerText = `${tempweather.weatherDaily.date.split('-')[1]}月${tempweather.weatherDaily.date.split('-')[2]}日`
+        yes.querySelector('.dayweather').innerText = `${tempweather.weatherHourly[0].text}`
+        yes.querySelector('.nightweather').innerText = `${tempweather.weatherHourly[23].text}`
+        yes.querySelector('.week-wind').innerText = `${tempweather.weatherHourly[23].windDir}${tempweather.weatherHourly[23].windScale}级`
+        yes.querySelector('.week-dayweather img').src = `img/weather/day/${tempweather.weatherHourly[0].text}.png`
+        yes.querySelector('.week-nightweather img').src = `img/weather/night/${tempweather.weatherHourly[23].text}.png`
     })
     //接下来七天天气预报
     axios({
-        url:'/v7/weather/7d',
-        method:'GET',
-        params:{
+        url: '/v7/weather/7d',
+        method: 'GET',
+        params: {
             key,
             location: `${document.querySelector('.city').id}`,
             lang: 'zh',
             unit: 'm'
         }
-    }).then(result=>{
-        const LoadWeekWeather=document.querySelector('.week-weather-block ol').children
-        result.data.daily.forEach((item,index)=>{
-            if(index>2){
+    }).then(result => {
+        const LoadWeekWeather = document.querySelector('.week-weather-block ol').children
+        result.data.daily.forEach((item, index) => {
+            canvasDayData.push(parseInt(item.tempMax))
+            canvasNightData.push(parseInt(item.tempMin))
+            if (index > 2) {
                 //加载星期
-            LoadWeekWeather[index+1].querySelector('.week-day').innerText=`${weekArray[index]}`
+                LoadWeekWeather[index + 1].querySelector('.week-day').innerText = `${weekArray[index]}`
             }
-            LoadWeekWeather[index+1].querySelector('.week-date').innerText=`${item.fxDate.split('-')[1]}月${item.fxDate.split('-')[2]}日`
-            LoadWeekWeather[index+1].querySelector('.dayweather').innerText=`${item.textDay}`
-            LoadWeekWeather[index+1].querySelector('.nightweather').innerText=`${item.textNight}`
-            LoadWeekWeather[index+1].querySelector('.week-wind').innerText=`${item.windDirDay}${item.windScaleDay}级`
-            LoadWeekWeather[index+1].querySelector('.week-dayweather img').src=`img/weather/day/${item.textDay}.png`
-            LoadWeekWeather[index+1].querySelector('.week-nightweather img').src=`img/weather/night/${item.textNight}.png`
+            LoadWeekWeather[index + 1].querySelector('.week-date').innerText = `${item.fxDate.split('-')[1]}月${item.fxDate.split('-')[2]}日`
+            LoadWeekWeather[index + 1].querySelector('.dayweather').innerText = `${item.textDay}`
+            LoadWeekWeather[index + 1].querySelector('.nightweather').innerText = `${item.textNight}`
+            LoadWeekWeather[index + 1].querySelector('.week-wind').innerText = `${item.windDirDay}${item.windScaleDay}级`
+            LoadWeekWeather[index + 1].querySelector('.week-dayweather img').src = `img/weather/day/${item.textDay}.png`
+            LoadWeekWeather[index + 1].querySelector('.week-nightweather img').src = `img/weather/night/${item.textNight}.png`
         })
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawMaxAxes()
+        drawMinAxes()
+        drawMaxDots()
+        drawMinDots()
     })
+
 }
-window.addEventListener('DOMContentLoaded',LoadweakWeather())
+window.addEventListener('DOMContentLoaded', LoadweakWeather())
 
 //折线图
-const canvas = document.querySelector('canvas')
-const ctx = canvas.getContext('2d')
-ctx.translate(174,0)
-const canvasDayData=[]
-
-function drawDayAxes() {
-    ctx.beginPath();
-    ctx.moveTo(0, -data[0]); // 第一个点
-
-    for (let i = 1; i < data.length; i++) {
-        ctx.lineTo(i * 80, -data[i]);
-    }        // X轴向右
-    ctx.strokeStyle = 'rgb(252,195,112)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-}
