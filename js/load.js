@@ -1,17 +1,35 @@
 window.addEventListener('DOMContentLoaded', isDefaultUpload())
-function isDefaultUpload(){
+
+function isDefaultUpload() {
+    allowLoadHistory=1
     if (followingList.length > 1) {
         //渲染
+        showFollowList.innerHTML=''
+        console.log(followingList);
+        
         document.querySelector('#follow-attention').style.display = 'none'
-        const orili = showFollowList.children[0].cloneNode(true)
 
         //遍历关注城市的列表
         followingList.forEach((item) => {
-            const newli = orili.cloneNode(true);
-            newli.querySelector('.following-city').innerHTML = `<span>${item.city}</span><a href="javascript:" class="btn-set">设为默认</a>
+            const newli = document .createElement('li')
+            newli.className='attention'
+            newli.innerHTML=`<p class="following-city" id="${item.id}" style="width: 146px;">
+                                    <span class="follow-city-province" style="display: none;">${item.province}</span>
+                                    <span class="follow-city-name">${item.city}</span>
+                                    <a href="javascript:" class="btn-set">设为默认</a>
                                     <a href="javascript:" class="btn-set1">取消默认</a>
-                                    <a href="javascript:" class="btn-set2">默认</a>`
-            newli.querySelector('.following-city').id = item.id
+                                    <a href="javascript:" class="btn-set2">默认</a>
+                                </p>
+                                <img src="" alt="" style="display: inline-block;width: 20px;height: 20px;">
+                                <p class="following-city-weather" style="width: 106px;">阴转大雨</p>
+                                <p class="following-city-temp" style="width: 56px;text-align: right;">34</p>
+                                <a href="javascript:void(0)" class="delete"></a>`
+            // newli.querySelector('.following-city').innerHTML = `
+            //                         <span class="follow-city-province" style="display: none;">${item.province}</span>
+            //                         <span class="follow-city-name">${item.city}</span><a href="javascript:" class="btn-set">设为默认</a>
+            //                         <a href="javascript:" class="btn-set1">取消默认</a>
+            //                         <a href="javascript:" class="btn-set2">默认</a>`
+            // newli.querySelector('.following-city').id = item.id
 
             if (item.isDefault === false) {
                 newli.querySelector('.btn-set1').style.display = 'none'
@@ -21,8 +39,8 @@ function isDefaultUpload(){
                 newli.querySelector('.btn-set').style.display = 'none'
                 newli.querySelector('.btn-set1').style.display = 'none'
                 newli.querySelector('.btn-set2').style.display = 'inline-block'
-                document.querySelector('.city').innerText=item.city
-                document.querySelector('.city').id=item.id
+                document.querySelector('.city').innerText = item.city
+                document.querySelector('.city').id = item.id
             }
 
             axios({
@@ -44,11 +62,11 @@ function isDefaultUpload(){
             })
         })
     }
-    refreashHistoryAllow=1
+
 }
 
 //加载历史记录
-function LoadHistory(){
+function LoadHistory() {
     const cityRecordList = document.querySelector('.city-record-list')
     //如果不是空列表
     console.log(searchHistory.length);
@@ -60,21 +78,20 @@ function LoadHistory(){
             searchHistory.splice(4, searchHistory.length - 4)
         }
         searchHistory.forEach(item => {
-            console.log('wwwwwhy');
-            
+
             const newli = document.createElement('li')
-            newli.style.display='inline-block'
-            newli.innerHTML = `<span>${item.city}</span>`
-            newli.querySelector('span').id=item.id
+            newli.style.display = 'inline-block'
+            newli.innerHTML = `<span class="history-province" style="display:none;">${item.province}</span><span class="history-city-name">${item.city}</span>`
+            newli.querySelector('.history-city-name').id = item.id
             cityRecordList.append(newli)
         })
     }
-    //如果是空
+    //如果是空,不显示
     else {
         document.querySelector('.city-record-block').style.display = 'none'
         document.querySelector('.city-record-list').style.display = 'none'
     }
-    while(cityRecordList.children.length>4){
+    while (cityRecordList.children.length > 4) {
         cityRecordList.removeChild(cityRecordList.firstChild)
     }
 }
@@ -107,8 +124,9 @@ window.addEventListener('DOMContentLoaded', () => {
     }).then(result => {
         const hotCityList = document.querySelector('.city-hot-list').querySelectorAll('li')
         hotCityList.forEach((item, index) => {
-            item.innerHTML = `<span>${result.data.topCityList[index].name}</span>`
-            item.querySelector('span').id = result.data.topCityList[index].id
+            item.querySelector('.hot-city-name').innerHTML = `${result.data.topCityList[index].name}`
+            item.querySelector('.hot-city-name').id = result.data.topCityList[index].id
+            item.querySelector('.hot-city-province').innerText=`${result.data.topCityList[index].adm1}`
         })
 
     }).catch(error => {
@@ -149,6 +167,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 lang: 'zh'
             }
         }).then(result => {
+            console.log('空气质量');
+
             document.querySelector('.air-imfor').innerText = result.data.indexes[0].category
             let color
             if (result.data.indexes[0].category === '良') {
@@ -305,7 +325,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }).then(result => {
         sun[0] = ToSplit1(result.data.sunrise)
         sun[1] = ToSplit1(result.data.sunset)
-        
+
 
         //每小时+日出日落天气渲染
         axios({
@@ -333,14 +353,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
-                if (transSunrise >= transtime && transSunrise < transnexttime&&result.data.hourly[index].temp!='日出'&&result.data.hourly[index].temp!='日落') {
+                if (transSunrise >= transtime && transSunrise < transnexttime && result.data.hourly[index].temp != '日出' && result.data.hourly[index].temp != '日落') {
                     const sunriseobj = new Object()
                     sunriseobj.fxTime = `1T${sun[0]}+1`
                     sunriseobj.temp = '日出'
                     sunriseobj.text = '日出'
                     result.data.hourly.splice(index + 1, 0, sunriseobj)
                     flag = 'day'
-                } else if (transSunset >= transtime && transSunset < transnexttime&&result.data.hourly[index].temp!='日出'&&result.data.hourly[index].temp!='日落') {
+                } else if (transSunset >= transtime && transSunset < transnexttime && result.data.hourly[index].temp != '日出' && result.data.hourly[index].temp != '日落') {
                     const sunsetobj = new Object()
                     sunsetobj.fxTime = `1T${sun[1]}+1`
                     sunsetobj.temp = '日落'

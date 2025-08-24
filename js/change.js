@@ -18,7 +18,7 @@ const observer = new MutationObserver(mutations => {
         LivingCondition()
         Suncondition()
         checkfollow()
-       if(refreashHistoryAllow){ HistoryList()}
+       if(allowLoadHistory){HistoryList()}
     });
 });
 
@@ -31,10 +31,10 @@ observer.observe(target, {
 function HistoryList() {
     //获取要渲染的对象和要放入的元素
     const tempcity=document.querySelector('.city')//要加入历史记录的城市
+    const province=document.querySelector('.province').innerText//省份文字星系
+    console.log('aa');
+    
     const cityRecordList = document.querySelector('.city-record-list')//待渲染的历史记录
-    // const templi=document.createElement('li')//创建dom元素
-    // templi.innerHTML=`<span>${tempcity.innerText}</span>`
-    // templi.id=tempcity.id
     //检测是否在历史中
     searchHistory.forEach((item,index)=>{
         if(item.id===tempcity.id){
@@ -42,20 +42,17 @@ function HistoryList() {
             searchHistory.splice(index,1)
         }
     })
-    //在原来插入->已经回显
-    // cityRecordList.insertBefore(templi,cityRecordList.firstChild)//插入dom元素
     //限制数量
     while(cityRecordList.children.length>4){
         cityRecordList.removeChild(cityRecordList.lastChild)
     }
     //存入本地存储
-
     const tempobj={
         city:`${tempcity.innerText}`,
-        id:`${tempcity.id}`
+        id:`${tempcity.id}`,
+        province:`${province}`
     }
     searchHistory.unshift(tempobj)
-
     if (searchHistory.length) {
         if(searchHistory.length>4){
             searchHistory.splice(4,searchHistory.length-4)
@@ -63,13 +60,6 @@ function HistoryList() {
     }
     localStorage.setItem('searchHistory',JSON.stringify(searchHistory))
     LoadHistory()
-    // if(searchHistory.length){
-    // document.querySelector('.city-record-block').style.display='block'
-    // document.querySelector('.city-record-list').style.display='block'
-    // }else{
-    //         document.querySelector('.city-record-block').style.display='none'
-    // document.querySelector('.city-record-list').style.display='none'
-    // }
 }
 
 function checkfollow() {
@@ -83,6 +73,7 @@ function checkfollow() {
     else { document.querySelector('.following').innerText = '[添加关注]' }
 }
 
+//经纬度查询嵌套空气质量查询
 function airCondition() {
     axios({
         url: '/geo/v2/city/lookup',

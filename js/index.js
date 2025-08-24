@@ -68,10 +68,11 @@ followbtn.addEventListener('click', () => {
     console.log(followingList);
 
     const city = document.querySelector('.city').innerText
+    const province = document.querySelector('.province').innerText
     if (!cityList.includes(city)) {
         const newcity = {
             city,
-            province: '',
+            province,
             id: `${document.querySelector('.city').id}`,
             isDefault: false
         }
@@ -159,8 +160,6 @@ const SearchCity = document.querySelector('.search-city');
 const NotFound = document.querySelector('.not-found');
 const CityDisplay = document.querySelector('.city');
 
-const orinode = GetCityList.children[0].cloneNode(true);
-orinode.style.display = 'none';
 
 GetCityList.addEventListener('click', e => {
     const li = e.target.closest('li');
@@ -185,6 +184,10 @@ SearchCity.addEventListener('input', debounce(() => {
     }).then(result => {
         // 清空列表并保留模板
         GetCityList.innerHTML = '';
+        const orinode = document.createElement('li')
+        orinode.className = 'sample'
+        orinode.innerHTML = `   <span class="found-province" style="display: none;"></span>
+                                <span class="found-city">北京</span>`
         GetCityList.appendChild(orinode);
 
         NotFound.style.display = 'none';
@@ -219,11 +222,9 @@ SearchCity.addEventListener('input', debounce(() => {
 
 SearchCity.addEventListener('blur', () => {
     SearchCity.value = ''
-    const orinode = GetCityList.children[0]
     while (GetCityList.firstChild) {
         GetCityList.removeChild(GetCityList.firstChild);
     }
-    GetCityList.appendChild(orinode)
 })
 
 //删除关注城市、设为默认
@@ -247,8 +248,8 @@ showFollowList.addEventListener('click', (e) => {
         followingList.forEach(item => {
             if (item.id === getid) {
                 item.isDefault = true
-            }else{
-                item.isDefault=false
+            } else {
+                item.isDefault = false
             }
         })
         getFollowCityList.forEach(item => {
@@ -302,7 +303,6 @@ showFollowList.addEventListener('mouseout', e => {
     }
     else {
         e.target.parentNode.querySelector('.btn-set').style.display = 'none'
-
     }
 })
 
@@ -319,7 +319,7 @@ foundList.addEventListener('mousedown', e => {
     console.log(e.target.parentNode);
     document.querySelector('.city').innerText = e.target.innerText.split('，')[e.target.innerText.split('，').length - 1]
     document.querySelector('.city').id = e.target.id
-
+    document.querySelector('.province').innerText=e.target.innerText.split('，')[0]
 })
 
 HotCityList.addEventListener('mousedown', e => {
@@ -327,54 +327,62 @@ HotCityList.addEventListener('mousedown', e => {
     console.log(e);
     console.log(e.target);
     console.log(e.target.parentNode);
-    if(e.target.id){
-        document.querySelector('.city').innerText = e.target.innerText.split('，')[e.target.innerText.split('，').length - 1]
+    if (e.target.id) {
+        document.querySelector('.city').innerText = e.target.innerText
         document.querySelector('.city').id = e.target.id
+        document.querySelector('.province').innerText = e.target.parentNode.querySelector('.hot-city-province').innerText
     }
-    else{
-        
-        document.querySelector('.city').innerText = e.target.innerText.split('，')[e.target.innerText.split('，').length - 1]
-        document.querySelector('.city').id = e.target.querySelector('span').id
+    else {
+
+        document.querySelector('.province').innerText = e.target.querySelector('.hot-city-province').innerText
+        document.querySelector('.city').innerText = e.target.querySelector('.hot-city-name').innerText
+        document.querySelector('.city').id = e.target.querySelector('hot-city-name').id
     }
 
 })
 
 showFollowList.addEventListener('mousedown', e => {
-    console.log('fuck');
+    console.log('fuc1k');
     console.log(e);
     console.log(e.target);
     console.log(e.target.parentNode);
     if (e.target.className === 'btn-set' || e.target.className === 'btn-set1' || e.target.className === 'btn-set2' || e.target.className === 'delete') {
-        console.log('nothing happend')
+        console.log('nothing');
+        
     }
     else {
-        const tempname=e.target.parentNode.querySelector('.following-city span').innerText
-        document.querySelector('.city').innerText = tempname
-        document.querySelector('.city').id = e.target.parentNode.id
+        console.log('something');
+        
+        const tempnode=e.target.parentNode
+        document.querySelector('.city').innerText = tempnode.querySelector('.following-city .follow-city-name').innerText
+        document.querySelector('.province').innerText = tempnode.querySelector('.following-city .follow-city-province').innerText
+        document.querySelector('.city').id = tempnode.id
     }
 })
 
-const getHistoryList=document.querySelector('.city-record-list')
-getHistoryList.addEventListener('mousedown',e=>{
+const getHistoryList = document.querySelector('.city-record-list')
+getHistoryList.addEventListener('mousedown', e => {
     console.log('fuck');
     console.log(e);
     console.log(e.target);
     console.log(e.target.parentNode);
-    if(e.target.id){
+    if (e.target.id) {
         document.querySelector('.city').innerText = e.target.innerText
         document.querySelector('.city').id = e.target.id
+        document.querySelector('.province').innerText=e.target.parentNode.querySelector('.history-province').innerText
     }
-    else{
-        document.querySelector('.city').innerText = e.target.innerText
-        document.querySelector('.city').id = e.target.querySelector('span').id
+    else {
+        document.querySelector('.province').innerText=e.target.querySelector('.history-province').innerText
+        document.querySelector('.city').innerText = e.target.querySelector('.history-city-name').innerText
+        document.querySelector('.city').id = e.target.querySelector('.history-city-name').id
     }
 })
 
-const delHistoryBtn=document.querySelector('.delete-history')
-delHistoryBtn.addEventListener('mousedown',()=>{
-    searchHistory=[]
-    localStorage.setItem('searchHistory',JSON.stringify(searchHistory))
-    document.querySelector('.city-record-list').innerHTML=''
-    document.querySelector('.city-record-block').style.display='none'
+const delHistoryBtn = document.querySelector('.delete-history')
+delHistoryBtn.addEventListener('mousedown', () => {
+    searchHistory = []
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
+    document.querySelector('.city-record-list').innerHTML = ''
+    document.querySelector('.city-record-block').style.display = 'none'
 }
 )
