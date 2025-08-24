@@ -18,6 +18,7 @@ const observer = new MutationObserver(mutations => {
         LivingCondition()
         Suncondition()
         checkfollow()
+        LoadweakWeather()
        if(allowLoadHistory){HistoryList()}
     });
 });

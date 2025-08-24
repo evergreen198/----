@@ -1,19 +1,19 @@
 window.addEventListener('DOMContentLoaded', isDefaultUpload())
 
 function isDefaultUpload() {
-    allowLoadHistory=1
+    allowLoadHistory = 1
     if (followingList.length > 1) {
         //渲染
-        showFollowList.innerHTML=''
+        showFollowList.innerHTML = ''
         console.log(followingList);
-        
+
         document.querySelector('#follow-attention').style.display = 'none'
 
         //遍历关注城市的列表
         followingList.forEach((item) => {
-            const newli = document .createElement('li')
-            newli.className='attention'
-            newli.innerHTML=`<p class="following-city" id="${item.id}" style="width: 146px;">
+            const newli = document.createElement('li')
+            newli.className = 'attention'
+            newli.innerHTML = `<p class="following-city" id="${item.id}" style="width: 146px;">
                                     <span class="follow-city-province" style="display: none;">${item.province}</span>
                                     <span class="follow-city-name">${item.city}</span>
                                     <a href="javascript:" class="btn-set">设为默认</a>
@@ -126,7 +126,7 @@ window.addEventListener('DOMContentLoaded', () => {
         hotCityList.forEach((item, index) => {
             item.querySelector('.hot-city-name').innerHTML = `${result.data.topCityList[index].name}`
             item.querySelector('.hot-city-name').id = result.data.topCityList[index].id
-            item.querySelector('.hot-city-province').innerText=`${result.data.topCityList[index].adm1}`
+            item.querySelector('.hot-city-province').innerText = `${result.data.topCityList[index].adm1}`
         })
 
     }).catch(error => {
@@ -460,5 +460,100 @@ window.addEventListener('DOMContentLoaded', () => {
         })
     })
 })
+//昨日函数
+function getYesterdayDate() {
+    const today = new Date();
+    today.setDate(today.getDate() - 1); // 设置为昨天
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const day = String(today.getDate()).padStart(2, '0');
+
+    return `${year}${month}${day}`;
+}
+//星期函数
+function getNext7DaysWeekdays() {
+    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    const result = [];
+
+    const today = new Date();
+
+    for (let i = 0; i < 7; i++) {
+        const tempDate = new Date(today);
+        tempDate.setDate(today.getDate() + i);
+        const dayOfWeek = tempDate.getDay(); // 0（星期日）到 6（星期六）
+        result.push(weekdays[dayOfWeek]);
+    }
+    return result;
+}
+
+const weekArray=getNext7DaysWeekdays()
 
 //七日天气预报
+function LoadweakWeather(){
+    //时光机
+    axios({
+        url: '/v7/historical/weather',
+        method: 'GET',
+        params: {
+            key,
+            location: `${document.querySelector('.city').id}`,
+            date:`${getYesterdayDate()}`,
+            lang: 'zh',
+            unit: 'm'
+        }
+    }).then(result=>{
+        const tempweather=result.data
+        const yes=document.querySelector('.week-first')
+        yes.querySelector('.week-date').innerText=  `${tempweather.weatherDaily.date.split('-')[1]}月${tempweather.weatherDaily.date.split('-')[2]}日`
+        yes.querySelector('.dayweather').innerText=`${tempweather.weatherHourly[0].text}`
+        yes.querySelector('.nightweather').innerText=`${tempweather.weatherHourly[23].text}`
+        yes.querySelector('.week-wind').innerText=`${tempweather.weatherHourly[23].windDir}${tempweather.weatherHourly[23].windScale}级`
+        yes.querySelector('.week-dayweather img').src=`img/weather/day/${tempweather.weatherHourly[0].text}.png`
+        yes.querySelector('.week-nightweather img').src=`img/weather/night/${tempweather.weatherHourly[23].text}.png`
+    })
+    //接下来七天天气预报
+    axios({
+        url:'/v7/weather/7d',
+        method:'GET',
+        params:{
+            key,
+            location: `${document.querySelector('.city').id}`,
+            lang: 'zh',
+            unit: 'm'
+        }
+    }).then(result=>{
+        const LoadWeekWeather=document.querySelector('.week-weather-block ol').children
+        result.data.daily.forEach((item,index)=>{
+            if(index>2){
+                //加载星期
+            LoadWeekWeather[index+1].querySelector('.week-day').innerText=`${weekArray[index]}`
+            }
+            LoadWeekWeather[index+1].querySelector('.week-date').innerText=`${item.fxDate.split('-')[1]}月${item.fxDate.split('-')[2]}日`
+            LoadWeekWeather[index+1].querySelector('.dayweather').innerText=`${item.textDay}`
+            LoadWeekWeather[index+1].querySelector('.nightweather').innerText=`${item.textNight}`
+            LoadWeekWeather[index+1].querySelector('.week-wind').innerText=`${item.windDirDay}${item.windScaleDay}级`
+            LoadWeekWeather[index+1].querySelector('.week-dayweather img').src=`img/weather/day/${item.textDay}.png`
+            LoadWeekWeather[index+1].querySelector('.week-nightweather img').src=`img/weather/night/${item.textNight}.png`
+        })
+    })
+}
+window.addEventListener('DOMContentLoaded',LoadweakWeather())
+
+//折线图
+const canvas = document.querySelector('canvas')
+const ctx = canvas.getContext('2d')
+ctx.translate(174,0)
+const canvasDayData=[]
+
+function drawDayAxes() {
+    ctx.beginPath();
+    ctx.moveTo(0, -data[0]); // 第一个点
+
+    for (let i = 1; i < data.length; i++) {
+        ctx.lineTo(i * 80, -data[i]);
+    }        // X轴向右
+    ctx.strokeStyle = 'rgb(252,195,112)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+}

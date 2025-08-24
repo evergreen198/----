@@ -391,6 +391,7 @@
         </div>
 
 
+
         <div class="infor">
             <div class="WeekWeather">
                 <div class="week-header">
@@ -399,11 +400,11 @@
                     </p>
                 </div>
 
-                <div class="week-weather-block">
-                    <ol>
+                <div class="week-weather-block" style="position: relative;">
+                    <ol >
                         <li class="week-first">
                             <p class="week-day">昨天</p>
-                            <p class="week-date">星期一</p>
+                            <p class="week-date">几月几号</p>
                             <div class="week-dayweather">
                                 <p class="dayweather">阴</p>
                                 <img src="" alt="">
@@ -415,7 +416,7 @@
                             <p class="week-wind">南风</p>
                         </li>
                         <li class="week-second">
-                            <p class="week-day"></p>
+                            <p class="week-day">今天</p>
                             <p class="week-date"></p>
                             <div class="week-dayweather">
                                 <p class="dayweather"></p>
@@ -428,7 +429,7 @@
                             <p class="week-wind"></p>
                         </li>
                         <li>
-                            <p class="week-day"></p>
+                            <p class="week-day">明天</p>
                             <p class="week-date"></p>
                             <div class="week-dayweather">
                                 <p class="dayweather"></p>
@@ -441,7 +442,7 @@
                             <p class="week-wind"></p>
                         </li>
                         <li>
-                            <p class="week-day"></p>
+                            <p class="week-day">后天</p>
                             <p class="week-date"></p>
                             <div class="week-dayweather">
                                 <p class="dayweather"></p>
@@ -506,10 +507,12 @@
                             <p class="week-wind"></p>
                         </li>
                     </ol>
+                    <canvas
+                        style="width: 740px; height: 174px;padding: 0px; margin: 0px; border-width: 0px;"></canvas>
                 </div>
             </div>
 
-
+            
             <div class="Living">
                 <div class="Living-head">
                     <p class="Living-quality">生活指数</p>
@@ -701,7 +704,7 @@
         </div>
     </footer>
     <script>
-        let allowLoadHistory=0
+        let allowLoadHistory = 0
         const key = '6c21587557574fd4bfc50e39f63986d2'
         const followbtn = document.querySelector('.following')
         //解析json格式的本地存储内容

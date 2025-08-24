@@ -185,8 +185,7 @@ header {
     display: inline-block;
 }
 
-.follow-list .attention:hover p 
-.btn-cancel {
+.follow-list .attention:hover p .btn-cancel {
     display: inline-block;
 }
 
@@ -336,7 +335,7 @@ header {
 
 .city-record-list {
     margin-left: 20px;
-    
+
 }
 
 .city-record-list li {
@@ -544,7 +543,7 @@ header {
     height: 24px;
     line-height: 24px;
     padding: 0 12px;
-    margin-left:24px;
+    margin-left: 24px;
     cursor: pointer;
     position: relative;
 }
@@ -817,14 +816,14 @@ ol {
 }
 
 .week-weather-block {
-    width: 740px;
-    height: 449px;
-}
-
-.week-weather-block {
     height: 450px;
     width: 740px;
 
+}
+
+.week-weather-block img {
+    height: 30px;
+    width: 30px;
 }
 
 .week-weather-block ol {
@@ -837,7 +836,6 @@ ol {
     height: 414px;
     width: 92px;
     padding: 11px 0 25 0;
-    background-color: #384c78;
 }
 
 .week-day {
@@ -855,11 +853,11 @@ ol {
 
 .week-nightweather {
     margin-top: 174px;
-    margin-bottom: 24px;
+    margin-bottom: 10px;
 }
 
 .week-nightweather img {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .week-wind {
@@ -874,6 +872,21 @@ ol {
     text-align: center;
 }
 
+.week-weather-block ol .week-second {
+    background-color:rgb(248, 250, 255);
+}
+
+.week-weather-block ol li{
+    position: relative;
+    top: 0;
+    font-size: 14px;
+    text-align: center;
+    padding-bottom: 25px;
+    color: rgb(138, 155, 175);
+}
+.week-day,.dayweather,.nightweather{
+    color: rgb(56, 76, 120);
+}
 .Living {
     float: right;
     width: 430px;
@@ -1091,4 +1104,11 @@ footer a {
 
 .foot-sponsor a:nth-child(3) {
     background-image: url(cssimg/a3.png);
+}
+
+canvas{
+    background-color:aqua;
+    opacity: 0.5;
+    position: absolute;
+    top: 150px;
 }
