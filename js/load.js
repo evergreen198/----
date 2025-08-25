@@ -527,9 +527,9 @@ function drawMinAxes() {
 
 
 function drawMaxDots() {
-    ctx.font = '16px Arial';
-    ctx.textAlign = 'center';
-    ctx.beginPath();
+    ctx.font = '16px Arial'
+    ctx.textAlign = 'center'
+    ctx.beginPath()
     ctx.moveTo(Xfoot, (canvasDayData[0] / 50) * (-174) ); // 第一个点
 
     for (let i = 0; i < canvasDayData.length; i++) {
@@ -541,25 +541,27 @@ function drawMaxDots() {
         ctx.fillStyle = 'rgb(252,195,112)'
         ctx.strokeStyle = 'rgb(252,195,112)'
         ctx.fill()
+        ctx.fillStyle = '#000'
         ctx.fillText(`${canvasDayData[i]}°`, tempX, tempY - 10)
         ctx.stroke()
     }        // X轴向右
 }
 
 function drawMinDots() {
-    ctx.font = '16px Arial';
-    ctx.textAlign = 'center';
-    ctx.beginPath();
+    ctx.font = '16px Arial'
+    ctx.textAlign = 'center'
+    ctx.beginPath()
     ctx.moveTo(Xfoot, (canvasNightData[0] / 50) * (-174) + 24); // 第一个点
 
     for (let i = 0; i < canvasDayData.length; i++) {
         const tempX = (2 * i + 1) * Xfoot
         const tempY = (canvasNightData[i] / 50) * (-174) + 24
         ctx.beginPath()
-        ctx.arc(tempX, tempY, 3, 0, Math.PI * 2);
+        ctx.arc(tempX, tempY, 3, 0, Math.PI * 2)
         ctx.fillStyle = 'rgb(148,204,249)'
         ctx.strokeStyle = 'rgb(148,204,249)'
         ctx.fill()
+        ctx.fillStyle = '#000'
         ctx.fillText(`${canvasNightData[i]}°`, tempX, tempY + 22)
         ctx.stroke()
     }        // X轴向右
