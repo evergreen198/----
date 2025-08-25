@@ -227,64 +227,63 @@ SearchCity.addEventListener('blur', () => {
     }
 })
 
-//删除关注城市、设为默认
-showFollowList.addEventListener('click', (e) => {
-    const targetli = e.target.parentNode
+// //删除关注城市、设为默认
+// showFollowList.addEventListener('click', (e) => {
+//     const targetli = e.target.parentNode
+//     const getFollowCityList = document.querySelector('.follow-list').querySelectorAll('li')
+//     //删除
+//     if (e.target.className === 'delete') {
+//         const getid = targetli.querySelector('.following-city').id
+//         followingList.forEach((item, index) => {
+//             if (item.id === getid) {
+//                 followingList.splice(index, 1)
+//                 //待完成：回显
+//                 location.reload()
+//             }
+//         })
+//     }
+//     else if (e.target.className === 'btn-set') {//设为默认
+//         const getid = targetli.id
+//         followingList.forEach(item => {
+//             if (item.id === getid) {
+//                 item.isDefault = true
+//             } else {
+//                 item.isDefault = false
+//             }
+//         })
+//         getFollowCityList.forEach(item => {
+//             console.log(item.querySelector('.btn-set1'));
+//             console.log('?');
+//             console.log(item);
 
-    const getFollowCityList = document.querySelector('.follow-list').querySelectorAll('li')
-    //删除
-    if (e.target.className === 'delete') {
-        const getid = targetli.querySelector('.following-city').id
-        followingList.forEach((item, index) => {
-            if (item.id === getid) {
-                followingList.splice(index, 1)
-                //待完成：回显
-                location.reload()
-            }
-        })
-    }
-    else if (e.target.className === 'btn-set') {//设为默认
-        const getid = targetli.id
-        followingList.forEach(item => {
-            if (item.id === getid) {
-                item.isDefault = true
-            } else {
-                item.isDefault = false
-            }
-        })
-        getFollowCityList.forEach(item => {
-            console.log(item.querySelector('.btn-set1'));
-            console.log('?');
-            console.log(item);
-
-            if (item.querySelector('.following-city').id === getid) {
-                item.querySelector('.btn-set2').style.display = 'inline-block'
-                item.querySelector('.btn-set1').style.display = 'none'
-                item.querySelector('.btn-set').style.display = 'none'
-            }
-        })
-    }
-    //取消默认
-    else if (e.target.className === 'btn-set1') {
-        const getid = targetli.id
-        followingList.forEach((item, inedx) => {
-            if (item.id === getid) {
-                item.isDefault = false
-            }
-        })
-        console.log(getFollowCityList);
-        getFollowCityList.forEach(item => {
-            console.log(item);
-            if (item.querySelector('.following-city').id === getid) {
-                item.querySelector('.btn-set').style.display = 'none'
-                item.querySelector('.btn-set1').style.display = 'none'
-                item.querySelector('.btn-set2').style.display = 'none'
-            }
-        })
-    }
-    localStorage.setItem('followingList', JSON.stringify(followingList))
-    isDefaultUpload()
-})
+//             if (item.querySelector('.following-city').id === getid) {
+//                 item.querySelector('.btn-set2').style.display = 'inline-block'
+//                 item.querySelector('.btn-set1').style.display = 'none'
+//                 item.querySelector('.btn-set').style.display = 'none'
+//             }
+//         })
+//     }
+//     //取消默认
+//     else if (e.target.className === 'btn-set1') {
+//         const getid = targetli.id
+//         followingList.forEach((item, inedx) => {
+//             if (item.id === getid) {
+//                 item.isDefault = false
+//             }
+//         })
+//         console.log(getFollowCityList);
+//         getFollowCityList.forEach(item => {
+//             console.log(item);
+//             if (item.querySelector('.following-city').id === getid) {
+//                 item.querySelector('.btn-set').style.display = 'none'
+//                 item.querySelector('.btn-set1').style.display = 'none'
+//                 item.querySelector('.btn-set2').style.display = 'none'
+//             }
+//         })
+//     }
+//     localStorage.setItem('followingList', JSON.stringify(followingList))
+//     isDefaultUpload()
+// })
 
 //默认城市显示
 showFollowList.addEventListener('mouseover', e => {
@@ -347,8 +346,60 @@ showFollowList.addEventListener('mousedown', e => {
     console.log(e.target);
     console.log(e.target.parentNode);
     if (e.target.className === 'btn-set' || e.target.className === 'btn-set1' || e.target.className === 'btn-set2' || e.target.className === 'delete') {
-        console.log('nothing');
-        
+        const targetli = e.target.parentNode
+        const getFollowCityList = document.querySelector('.follow-list').querySelectorAll('li')
+        //删除
+        if (e.target.className === 'delete') {
+            const getid = targetli.querySelector('.following-city').id
+            followingList.forEach((item, index) => {
+                if (item.id === getid) {
+                    followingList.splice(index, 1)
+                    //待完成：回显
+                    location.reload()
+                }
+            })
+        }
+        else if (e.target.className === 'btn-set') {//设为默认
+            const getid = targetli.id
+            followingList.forEach(item => {
+                if (item.id === getid) {
+                    item.isDefault = true
+                } else {
+                    item.isDefault = false
+                }
+            })
+            getFollowCityList.forEach(item => {
+                console.log(item.querySelector('.btn-set1'));
+                console.log('?');
+                console.log(item);
+    
+                if (item.querySelector('.following-city').id === getid) {
+                    item.querySelector('.btn-set2').style.display = 'inline-block'
+                    item.querySelector('.btn-set1').style.display = 'none'
+                    item.querySelector('.btn-set').style.display = 'none'
+                }
+            })
+        }
+        //取消默认
+        else if (e.target.className === 'btn-set1') {
+            const getid = targetli.id
+            followingList.forEach((item, inedx) => {
+                if (item.id === getid) {
+                    item.isDefault = false
+                }
+            })
+            console.log(getFollowCityList);
+            getFollowCityList.forEach(item => {
+                console.log(item);
+                if (item.querySelector('.following-city').id === getid) {
+                    item.querySelector('.btn-set').style.display = 'none'
+                    item.querySelector('.btn-set1').style.display = 'none'
+                    item.querySelector('.btn-set2').style.display = 'none'
+                }
+            })
+        }
+        localStorage.setItem('followingList', JSON.stringify(followingList))
+        isDefaultUpload()
     }
     else {
         console.log('something');
@@ -386,3 +437,17 @@ delHistoryBtn.addEventListener('mousedown', () => {
     document.querySelector('.city-record-block').style.display = 'none'
 }
 )
+
+const getNowLocate=document.querySelector('.city-now')
+getNowLocate.addEventListener('mousedown',e=>{
+    if (e.target.id) {
+        document.querySelector('.city').innerText = e.target.innerText
+        document.querySelector('.city').id = e.target.id
+        document.querySelector('.province').innerText=e.target.parentNode.querySelector('.city-now-province').innerText
+    }
+    else {
+        document.querySelector('.province').innerText=e.target.querySelector('.city-now-province').innerText
+        document.querySelector('.city').innerText = e.target.querySelector('.city-now-name').innerText
+        document.querySelector('.city').id = e.target.querySelector('.city-now-name').id
+    }
+})

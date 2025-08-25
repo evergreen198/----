@@ -1,4 +1,4 @@
-
+//页面发生变更时的动作
 function ToSplit1(str) {
     return str.split("T")[1].split("+")[0]
 }

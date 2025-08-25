@@ -1,3 +1,5 @@
+//页面的第一次加载
+
 window.addEventListener('DOMContentLoaded', isDefaultUpload())
 
 function isDefaultUpload() {
@@ -494,15 +496,15 @@ const ctx = canvas.getContext('2d')
 ctx.translate(0, 174)
 const Xfoot = 740 / 16
 
-const canvasDayData = []//最高气温
-const canvasNightData = []//最低气温
+let canvasDayData = []//最高气温
+let canvasNightData = []//最低气温
 
 function drawMaxAxes() {
     ctx.beginPath();
-    ctx.moveTo(Xfoot, (canvasDayData[0] / 50) * (-174)-15); // 第一个点
+    ctx.moveTo(Xfoot, (canvasDayData[0] / 50) * (-174) ); // 第一个点
 
     for (let i = 1; i < canvasDayData.length; i++) {
-        ctx.lineTo((2 * i + 1) * Xfoot, (canvasDayData[i] / 50) * (-174)-15);
+        ctx.lineTo((2 * i + 1) * Xfoot, (canvasDayData[i] / 50) * (-174) );
     }        // X轴向右
     ctx.strokeStyle = 'rgb(252,195,112)';
     ctx.lineWidth = 2;
@@ -511,10 +513,10 @@ function drawMaxAxes() {
 
 function drawMinAxes() {
     ctx.beginPath();
-    ctx.moveTo(Xfoot, (canvasNightData[0] / 50) * (-174)+24); // 第一个点
+    ctx.moveTo(Xfoot, (canvasNightData[0] / 50) * (-174) + 24); // 第一个点
 
     for (let i = 0; i < canvasNightData.length; i++) {
-        ctx.lineTo((2 * i + 1) * Xfoot, (canvasNightData[i] / 50) * (-174)+24);
+        ctx.lineTo((2 * i + 1) * Xfoot, (canvasNightData[i] / 50) * (-174) + 24);
         console.log('made it');
 
     }        // X轴向右
@@ -528,18 +530,18 @@ function drawMaxDots() {
     ctx.font = '16px Arial';
     ctx.textAlign = 'center';
     ctx.beginPath();
-    ctx.moveTo(Xfoot, (canvasDayData[0] / 50) * (-174)-15); // 第一个点
+    ctx.moveTo(Xfoot, (canvasDayData[0] / 50) * (-174) ); // 第一个点
 
     for (let i = 0; i < canvasDayData.length; i++) {
 
-        const tempX=(2 * i + 1) * Xfoot
-        const tempY= (canvasDayData[i] / 50) * (-174)-15
+        const tempX = (2 * i + 1) * Xfoot
+        const tempY = (canvasDayData[i] / 50) * (-174) 
         ctx.beginPath();
-        ctx.arc(tempX,tempY, 3, 0, Math.PI * 2)
+        ctx.arc(tempX, tempY, 3, 0, Math.PI * 2)
         ctx.fillStyle = 'rgb(252,195,112)'
         ctx.strokeStyle = 'rgb(252,195,112)'
         ctx.fill()
-        ctx.fillText(`${canvasDayData[i]}°`, tempX, tempY-10)
+        ctx.fillText(`${canvasDayData[i]}°`, tempX, tempY - 10)
         ctx.stroke()
     }        // X轴向右
 }
@@ -548,23 +550,25 @@ function drawMinDots() {
     ctx.font = '16px Arial';
     ctx.textAlign = 'center';
     ctx.beginPath();
-    ctx.moveTo(Xfoot, (canvasNightData[0] / 50) * (-174)+24); // 第一个点
+    ctx.moveTo(Xfoot, (canvasNightData[0] / 50) * (-174) + 24); // 第一个点
 
     for (let i = 0; i < canvasDayData.length; i++) {
-        const tempX=(2 * i + 1) * Xfoot
-        const tempY= (canvasNightData[i] / 50) * (-174)+24
+        const tempX = (2 * i + 1) * Xfoot
+        const tempY = (canvasNightData[i] / 50) * (-174) + 24
         ctx.beginPath()
         ctx.arc(tempX, tempY, 3, 0, Math.PI * 2);
         ctx.fillStyle = 'rgb(148,204,249)'
         ctx.strokeStyle = 'rgb(148,204,249)'
         ctx.fill()
-        ctx.fillText(`${canvasNightData[i]}°`, tempX, tempY+22)
+        ctx.fillText(`${canvasNightData[i]}°`, tempX, tempY + 22)
         ctx.stroke()
     }        // X轴向右
 }
 
 //七日天气预报
 function LoadweakWeather() {
+    canvasDayData = []//最高气温
+    canvasNightData = []//最低气温
     //时光机
     axios({
         url: '/v7/historical/weather',
@@ -615,8 +619,9 @@ function LoadweakWeather() {
             LoadWeekWeather[index + 1].querySelector('.week-dayweather img').src = `img/weather/day/${item.textDay}.png`
             LoadWeekWeather[index + 1].querySelector('.week-nightweather img').src = `img/weather/night/${item.textNight}.png`
         })
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.setTransform(1, 0, 0, 1, 0, 0)// 重置变换
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.translate(0, 174) // 再次设置坐标系
         drawMaxAxes()
         drawMinAxes()
         drawMaxDots()
