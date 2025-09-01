@@ -4,7 +4,7 @@ function ToSplit1(str) {
 }
 
 function ToSplit2(str) {
-    return parseInt(str.split(":")[0]) * 24 + parseInt(str.split(":")[1])
+    return parseInt(str.split(":")[0]) * 60 + parseInt(str.split(":")[1])
 }
 
 //城市经纬度获取
@@ -26,7 +26,7 @@ const observer = new MutationObserver(mutations => {
 observer.observe(target, {
     childList: true,       // 监听子节点变化
     characterData: true,   // 监听文本节点变化
-    subtree: true          // 监听所有后代节点
+    subtree: false          // 监听所有后代节点
 });
 
 function HistoryList() {
@@ -278,14 +278,14 @@ function Suncondition() {
 
 
 
-                if (transSunrise > transtime && transSunrise < transnexttime) {
+                if (transSunrise >= transtime && transSunrise < transnexttime && result.data.hourly[index].temp != '日出' && result.data.hourly[index].temp != '日落') {
                     const sunriseobj = new Object()
                     sunriseobj.fxTime = `1T${sun[0]}+1`
                     sunriseobj.temp = '日出'
                     sunriseobj.text = '日出'
                     result.data.hourly.splice(index + 1, 0, sunriseobj)
                     flag = 'day'
-                } else if (transSunset > transtime && transSunset < transnexttime) {
+                } else if (transSunset >= transtime && transSunset < transnexttime && result.data.hourly[index].temp != '日出' && result.data.hourly[index].temp != '日落') {
                     const sunsetobj = new Object()
                     sunsetobj.fxTime = `1T${sun[1]}+1`
                     sunsetobj.temp = '日落'

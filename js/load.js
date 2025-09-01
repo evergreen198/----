@@ -1,7 +1,6 @@
 //页面的第一次加载
 
 window.addEventListener('DOMContentLoaded', isDefaultUpload())
-
 function isDefaultUpload() {
     allowLoadHistory = 1
     if (followingList.length > 1) {
@@ -26,13 +25,6 @@ function isDefaultUpload() {
                                 <p class="following-city-weather" style="width: 106px;">阴转大雨</p>
                                 <p class="following-city-temp" style="width: 56px;text-align: right;">34</p>
                                 <a href="javascript:void(0)" class="delete"></a>`
-            // newli.querySelector('.following-city').innerHTML = `
-            //                         <span class="follow-city-province" style="display: none;">${item.province}</span>
-            //                         <span class="follow-city-name">${item.city}</span><a href="javascript:" class="btn-set">设为默认</a>
-            //                         <a href="javascript:" class="btn-set1">取消默认</a>
-            //                         <a href="javascript:" class="btn-set2">默认</a>`
-            // newli.querySelector('.following-city').id = item.id
-
             if (item.isDefault === false) {
                 newli.querySelector('.btn-set1').style.display = 'none'
                 newli.querySelector('.btn-set2').style.display = 'none'
@@ -64,7 +56,75 @@ function isDefaultUpload() {
             })
         })
     }
+    checkfollow()
+}
+//新增关注
+function isDefaultUpload2() {
+    allowLoadHistory = 1
+    if (followingList.length > 1) {
+        //渲染
+        showFollowList.innerHTML = ''
+        console.log(followingList);
 
+        document.querySelector('#follow-attention').style.display = 'none'
+
+        //遍历关注城市的列表
+        followingList.forEach((item) => {
+            const newli = document.createElement('li')
+            newli.className = 'attention'
+            newli.innerHTML = `<p class="following-city" id="${item.id}" style="width: 146px;">
+                                    <span class="follow-city-province" style="display: none;">${item.province}</span>
+                                    <span class="follow-city-name">${item.city}</span>
+                                    <a href="javascript:" class="btn-set">设为默认</a>
+                                    <a href="javascript:" class="btn-set1">取消默认</a>
+                                    <a href="javascript:" class="btn-set2">默认</a>
+                                </p>
+                                <img src="" alt="" style="display: inline-block;width: 20px;height: 20px;">
+                                <p class="following-city-weather" style="width: 106px;">阴转大雨</p>
+                                <p class="following-city-temp" style="width: 56px;text-align: right;">34</p>
+                                <a href="javascript:void(0)" class="delete"></a>`
+            if (item.isDefault === false) {
+                newli.querySelector('.btn-set1').style.display = 'none'
+                newli.querySelector('.btn-set2').style.display = 'none'
+            }
+            else if (item.isDefault === true) {
+                newli.querySelector('.btn-set').style.display = 'none'
+                newli.querySelector('.btn-set1').style.display = 'none'
+                newli.querySelector('.btn-set2').style.display = 'inline-block'
+            }
+
+            axios({
+                url: '/v7/weather/3d',
+                method: 'GET',
+                params: {
+                    key,
+                    location: `${item.id}`,
+                    lang: 'zh',
+                    unit: 'm'
+                }
+            }).then(result => {
+                const newinfor = result.data.daily[0]
+                newli.querySelector('img').src = `img/timid/${newinfor.textDay}.png`
+                newli.querySelector('.following-city-weather').innerText = newinfor.textDay
+                newli.querySelector('.following-city-temp').innerText = `${newinfor.tempMax}°/${newinfor.tempMin}°`
+                newli.style.display = 'block'
+                showFollowList.append(newli)
+            })
+        })
+    }
+    checkfollow()
+
+}
+
+function checkfollow() {
+    flag = 0
+    followingList.forEach(item => {
+        if (item.city === document.querySelector('.city').innerText) {
+            flag = 1
+        }
+    })
+    if (flag) { document.querySelector('.following').innerText = '[已关注]' }
+    else { document.querySelector('.following').innerText = '[添加关注]' }
 }
 
 //加载历史记录
@@ -325,6 +385,8 @@ window.addEventListener('DOMContentLoaded', () => {
             date
         }
     }).then(result => {
+        console.log(result.data);
+        
         sun[0] = ToSplit1(result.data.sunrise)
         sun[1] = ToSplit1(result.data.sunset)
 
@@ -353,7 +415,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 const transSunrise = ToSplit2(sun[0])
                 const transSunset = ToSplit2(sun[1])
 
-
+                console.log(transSunrise);
+                console.log(transSunset);
+                console.log(transtime);
+                console.log(transnexttime);
+                
 
                 if (transSunrise >= transtime && transSunrise < transnexttime && result.data.hourly[index].temp != '日出' && result.data.hourly[index].temp != '日落') {
                     const sunriseobj = new Object()

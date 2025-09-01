@@ -6,6 +6,8 @@ const GetCityList = SearchBlock.querySelector('ul')
 const HotCityList = document.querySelector('.city-hot-list')
 inputSearchCity.addEventListener('focus', () => {
     CityBlock.style.display = 'block';
+    inputSearchCity.style.border='none'
+
 })
 
 inputSearchCity.addEventListener('blur', () => {
@@ -67,25 +69,28 @@ followbtn.addEventListener('click', () => {
     console.log(1);
     console.log(followingList);
 
-    const city = document.querySelector('.city').innerText
-    const province = document.querySelector('.province').innerText
+    const city = document.querySelector('.city').innerText;
+    const province = document.querySelector('.province').innerText;
+
     if (!cityList.includes(city)) {
         const newcity = {
             city,
             province,
             id: `${document.querySelector('.city').id}`,
             isDefault: false
-        }
-        followingList.push(newcity)
-        localStorage.setItem('followingList', JSON.stringify(followingList))
-        followbtn.innerHTML = '[已关注]'
-        location.reload()
-    }
-    else {
+        };
+        followingList.push(newcity);
+        localStorage.setItem('followingList', JSON.stringify(followingList));
+        followbtn.innerHTML = '[已关注]';
+
+        // 动态刷新 .follow-list
+        isDefaultUpload2()
+    } else {
         console.log('已关注');
     }
+});
 
-})
+
 //渲染模糊搜索列表
 // const SearchCity = document.querySelector('.search-city')
 // SearchCity.addEventListener('input', () => {
@@ -186,6 +191,7 @@ SearchCity.addEventListener('input', debounce(() => {
         GetCityList.innerHTML = '';
         const orinode = document.createElement('li')
         orinode.className = 'sample'
+        orinode.style.display='none'
         orinode.innerHTML = `   <span class="found-province" style="display: none;"></span>
                                 <span class="found-city">北京</span>`
         GetCityList.appendChild(orinode);
@@ -198,13 +204,15 @@ SearchCity.addEventListener('input', debounce(() => {
         const keyword = SearchCity.value.trim();
 
         result.data.location.forEach(item => {
-            if (item.name.includes(keyword)) {
+            const str=item.name
+            if (str.includes(keyword)) {
+                const restr=str.replace(keyword,`<span style="color:#448aff;">${keyword}</span>`)
                 const newli = orinode.cloneNode(true);
                 newli.style.display = 'block';
                 newli.id = item.id;
-                newli.innerText = item.name === item.adm2
-                    ? `${item.adm1}，${item.adm2}`
-                    : `${item.adm1}，${item.adm2}，${item.name}`;
+                newli.innerHTML = item.name === item.adm2
+                    ? `${item.adm1}，${restr}`
+                    : `${item.adm1}，${item.adm2}，${restr}`;
                 fragment.appendChild(newli);
             }
         });
@@ -312,7 +320,6 @@ showFollowList.addEventListener('mouseout', e => {
 //历史记录：
 //热门城市
 foundList.addEventListener('mousedown', e => {
-    console.log('fuck');
     console.log(e);
     console.log(e.target);
     console.log(e.target.parentNode);
@@ -322,7 +329,6 @@ foundList.addEventListener('mousedown', e => {
 })
 
 HotCityList.addEventListener('mousedown', e => {
-    console.log('fuck');
     console.log(e);
     console.log(e.target);
     console.log(e.target.parentNode);
@@ -341,10 +347,10 @@ HotCityList.addEventListener('mousedown', e => {
 })
 
 showFollowList.addEventListener('mousedown', e => {
-    console.log('fuc1k');
-    console.log(e);
-    console.log(e.target);
-    console.log(e.target.parentNode);
+    console.log(e)
+    console.log(e.target)
+    console.log(e.target.parentNode)
+    //默认、删除、取消默认
     if (e.target.className === 'btn-set' || e.target.className === 'btn-set1' || e.target.className === 'btn-set2' || e.target.className === 'delete') {
         const targetli = e.target.parentNode
         const getFollowCityList = document.querySelector('.follow-list').querySelectorAll('li')
@@ -355,7 +361,6 @@ showFollowList.addEventListener('mousedown', e => {
                 if (item.id === getid) {
                     followingList.splice(index, 1)
                     //待完成：回显
-                    location.reload()
                 }
             })
         }
@@ -399,11 +404,10 @@ showFollowList.addEventListener('mousedown', e => {
             })
         }
         localStorage.setItem('followingList', JSON.stringify(followingList))
-        isDefaultUpload()
+        isDefaultUpload2()
     }
     else {
         console.log('something');
-        
         const tempnode=e.target.parentNode
         document.querySelector('.city').innerText = tempnode.querySelector('.following-city .follow-city-name').innerText
         document.querySelector('.province').innerText = tempnode.querySelector('.following-city .follow-city-province').innerText
@@ -413,7 +417,6 @@ showFollowList.addEventListener('mousedown', e => {
 
 const getHistoryList = document.querySelector('.city-record-list')
 getHistoryList.addEventListener('mousedown', e => {
-    console.log('fuck');
     console.log(e);
     console.log(e.target);
     console.log(e.target.parentNode);

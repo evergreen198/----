@@ -222,6 +222,7 @@ header {
 }
 
 .search-city:focus-visible {
+    outline:none;
     border: none;
 }
 
